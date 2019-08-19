@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Oct 15, 2016 4:43:12 PM by Hibernate Tools 4.0.0 -->
+<hibernate-mapping>
+    <class name="com.vortexbird.sentinel.modelo.SegPermiso" table="seg_permiso" schema="seguridad">
+        <id name="perCodigo" type="java.lang.Long">
+            <column name="per_codigo" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="segRol" class="com.vortexbird.sentinel.modelo.SegRol" fetch="select">
+            <column name="rol_codigo" />
+        </many-to-one>
+        <many-to-one name="segOpcion" class="com.vortexbird.sentinel.modelo.SegOpcion" fetch="select">
+            <column name="opc_codigo" />
+        </many-to-one>
+        <many-to-one name="segUsuarioByUsuCodigo" class="com.vortexbird.sentinel.modelo.SegUsuario" fetch="select">
+            <column name="usu_codigo" />
+        </many-to-one>
+        <many-to-one name="segSistemaCia" class="com.vortexbird.sentinel.modelo.SegSistemaCia" fetch="select">
+            <column name="sic_codigo" />
+        </many-to-one>
+        <many-to-one name="segUsuarioByModUsuCodigo" class="com.vortexbird.sentinel.modelo.SegUsuario" fetch="select">
+            <column name="mod_usu_codigo" />
+        </many-to-one>
+        <many-to-one name="segSucursal" class="com.vortexbird.sentinel.modelo.SegSucursal" fetch="select">
+            <column name="suc_codigo" />
+        </many-to-one>
+        <many-to-one name="segGrupoOpcion" class="com.vortexbird.sentinel.modelo.SegGrupoOpcion" fetch="select">
+            <column name="gru_codigo" />
+        </many-to-one>
+        <property name="perEstadoRegistro" type="java.lang.String">
+            <column name="per_estado_registro" length="1" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

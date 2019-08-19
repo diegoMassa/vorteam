@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!--Author Zathuracode Generator -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+	xmlns:task="http://www.springframework.org/schema/task"
+    xmlns:util="http://www.springframework.org/schema/util"
+	
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+		http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa-1.8.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd
+		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.3.xsd
+       	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.3.xsd">
+
+	<bean id="entityManagerFactory"	class="org.springframework.orm.jpa.LocalEntityManagerFactoryBean">
+		 <property name="persistenceUnitName" value="vorteam-configPU" />			
+	</bean>
+	
+	
+	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory" ref="entityManagerFactory" />
+	</bean>
+	
+	<bean class="com.vortexbird.aws.s3.VortexAWSCredentials" id="vortexAWSCredentials">
+     	<property name="AWSAccessKeyId" 	value="AKIAIRWP6W5UHT4GCACA"/>
+     	<property name="AWSSecretKey" 	value="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"/>
+     	<property name="region" 			value="us-east-1"/>
+     </bean>
+
+	<tx:annotation-driven transaction-manager="transactionManager" />
+	<context:component-scan base-package="com" scoped-proxy="interfaces" />
+	
+	<import resource="classpath:aopContext.xml" />
+	
+	<bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean"/>
+	
+	<jpa:repositories base-package="com.vortexbird.vorteam.repository" base-class="com.vortexbird.vorteam.repository.JpaGenericRepositoryImpl"/>
+	
+	<!--    Spring Scheduled Tasks  -->
+    <task:annotation-driven />
+    <!--     Cron Tabs Expression from properties file -->
+    <util:properties id="applicationProps" location="classpath:cronExpressions.properties" />
+    <!--     Spring Framework Bean Registration for Properties File -->
+    <context:property-placeholder properties-ref="applicationProps" />
+</beans>

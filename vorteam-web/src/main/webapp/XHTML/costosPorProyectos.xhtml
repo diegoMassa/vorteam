@@ -1,0 +1,105 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+
+	<ui:define name="content">
+		<f:view locale="#{localeBean.locale}">
+			<h:form id="formDialog">
+				<p:messages id="msg" />
+				<div class="ui-fluid">
+					<div class="card overview">
+						<p:panel header="#{msg.heCostosPorProyectos}">
+							<div class="ui-g">
+								<div class="ui-g-12 ui-md-6 ui-lg-6">
+									<h:panelGroup styleClass="md-inputfield">
+										<p:calendar id="calFechaInicial"
+											pattern="#{msg.lblAnhoMesDia}"
+											binding="#{costosPorProyectosView.calFechaInicial}" />
+										<label>#{msg.lblFechaInicio}</label>
+									</h:panelGroup>
+									<p:message for="calFechaInicial" />
+								</div>
+								<div class="ui-g-12 ui-md-6 ui-lg-6">
+									<h:panelGroup styleClass="md-inputfield">
+										<p:calendar id="calFechaFinal" pattern="#{msg.lblAnhoMesDia}"
+											binding="#{costosPorProyectosView.calFechaFinal}" />
+										<label>#{msg.lblFechaFin}</label>
+									</h:panelGroup>
+									<p:message for="calFechaFinal" />
+								</div>
+							</div>
+							<div class="ui-g">
+								<div class="ui-g-12 ui-md-6 ui-lg-6">
+									<p:selectOneMenu style="min-width:0;" id="somEstadoProyecto"
+										binding="#{costosPorProyectosView.somEstadoProyecto}"
+										filter="true" filterMatchMode="contains">
+										<f:selectItem itemValue="#{msg.somSeleccionarValue}"
+											itemLabel="#{msg.lblSeleccionarEstado}" />
+										<p:ajax event="change" update="somProyecto"
+											listener="#{costosPorProyectosView.buscarProyectos}" />
+										<f:selectItems
+											value="#{costosPorProyectosView.siEstadosProyecto}" />
+									</p:selectOneMenu>
+									<p:message for="somEstadoProyecto" />
+								</div>
+								<div class="ui-g-12 ui-md-6 ui-lg-6">
+									<p:selectOneMenu style="min-width:0;" id="somProyecto"
+										binding="#{costosPorProyectosView.somProyecto}" filter="true"
+										filterMatchMode="contains">
+										<f:selectItem itemValue="#{msg.somSeleccionarValue}"
+											itemLabel="#{msg.lblSeleccionarProyecto}" />
+										<f:selectItems value="#{costosPorProyectosView.siProyectos}" />
+									</p:selectOneMenu>
+									<p:message for="somProyecto" />
+								</div>
+							</div>
+							<div class="ui-g">
+								<div class="ui-g-12 ui-md-6 ui-lg-6">
+									<p:selectOneMenu style="min-width:0;" id="somTipoActividad"
+										binding="#{costosPorProyectosView.somTipoActividad}"
+										filter="true" filterMatchMode="contains">
+										<f:selectItem itemValue="#{msg.somSeleccionarValue}"
+											itemLabel="#{msg.lblSeleccionarTipoActividad}" />
+										<f:selectItems
+											value="#{costosPorProyectosView.siTiposActividad}" />
+									</p:selectOneMenu>
+									<p:message for="somTipoActividad" />
+								</div>
+								<div class="ui-g-12 ui-md-6 ui-lg-6">
+									<p:selectOneMenu style="min-width:0;" id="somPersona"
+										binding="#{costosPorProyectosView.somPersona}" filter="true"
+										filterMatchMode="contains">
+										<f:selectItem itemValue="#{msg.somSeleccionarValue}"
+											itemLabel="#{msg.lblSeleccionarPersona}" />
+										<f:selectItems value="#{costosPorProyectosView.siPersonas}" />
+									</p:selectOneMenu>
+									<p:message for="somPersona" />
+								</div>
+							</div>
+							<div align="center">
+								<h:panelGrid columns="2">
+									<p:commandButton id="btnXLSX" value="#{msg.lblDescargaXLSX}"
+										onclick="PrimeFaces.monitorDownload(showStatus, hideStatus)"
+										ajax="false">
+										<p:fileDownload value="#{costosPorProyectosView.reporteXlsx}" />
+									</p:commandButton>
+
+									<p:commandButton id="btnPDF" value="#{msg.lblDescargaPDF}"
+										onclick="PrimeFaces.monitorDownload(showStatus, hideStatus)"
+										ajax="false">
+										<p:fileDownload value="#{costosPorProyectosView.reportePdf}" />
+									</p:commandButton>
+								</h:panelGrid>
+							</div>
+
+						</p:panel>
+
+					</div>
+				</div>
+			</h:form>
+
+		</f:view>
+	</ui:define>
+</ui:composition>

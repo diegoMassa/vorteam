@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Oct 15, 2016 4:43:12 PM by Hibernate Tools 4.0.0 -->
+<hibernate-mapping>
+    <class name="com.vortexbird.sentinel.modelo.SegRol" table="seg_rol" schema="seguridad">
+        <id name="rolCodigo" type="java.lang.Long">
+            <column name="rol_codigo" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="segUsuario" class="com.vortexbird.sentinel.modelo.SegUsuario" fetch="select">
+            <column name="mod_usu_codigo" />
+        </many-to-one>
+        <many-to-one name="segSistema" class="com.vortexbird.sentinel.modelo.SegSistema" fetch="select">
+            <column name="seg_sistema_sis_codigo" not-null="true" />
+        </many-to-one>
+        <property name="rolNombre" type="java.lang.String">
+            <column name="rol_nombre" length="50" not-null="true" />
+        </property>
+        <property name="rolDescripcion" type="java.lang.String">
+            <column name="rol_descripcion" length="200" />
+        </property>
+        <property name="rolDiasCaducidadPwd" type="java.lang.Long">
+            <column name="rol_dias_caducidad_pwd" precision="3" scale="0" />
+        </property>
+        <property name="rolEstadoRegistro" type="java.lang.String">
+            <column name="rol_estado_registro" length="1" not-null="true" />
+        </property>
+        
+        <property name="esAdmonDeAplicacion" type="java.lang.String">
+            <column name="ES_ADMON_DE_APLICACION" length="1" not-null="true" />
+        </property>
+        
+        <set name="segPermisos" table="seg_permiso" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="rol_codigo" />
+            </key>
+            <one-to-many class="com.vortexbird.sentinel.modelo.SegPermiso" />
+        </set>
+        <set name="segRolUsuarios" table="seg_rol_usuario" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="seg_rol_rol_codigo" not-null="true" />
+            </key>
+            <one-to-many class="com.vortexbird.sentinel.modelo.SegRolUsuario" />
+        </set>
+    </class>
+</hibernate-mapping>

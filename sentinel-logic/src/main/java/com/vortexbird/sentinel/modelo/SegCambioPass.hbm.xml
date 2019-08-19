@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Oct 15, 2016 4:43:12 PM by Hibernate Tools 4.0.0 -->
+<hibernate-mapping>
+    <class name="com.vortexbird.sentinel.modelo.SegCambioPass" table="seg_cambio_pass" schema="seguridad">
+        <id name="capCodigo" type="java.lang.Long">
+            <column name="cap_codigo" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="segUsuario" class="com.vortexbird.sentinel.modelo.SegUsuario" fetch="select">
+            <column name="seg_usuario_usu_codigo" />
+        </many-to-one>
+        <property name="capFechaFin" type="java.util.Date">
+            <column name="cap_fecha_fin" length="29" />
+        </property>
+        <property name="capToken" type="java.lang.String">
+            <column name="cap_token" length="200" />
+        </property>
+        <property name="capEstado" type="java.lang.String">
+            <column name="cap_estado" length="50" />
+        </property>
+        <property name="capFechaIni" type="java.util.Date">
+            <column name="cap_fecha_ini" length="29" />
+        </property>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,209 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+
+	<ui:define name="content">
+		<f:view locale="#{localeBean.locale}">
+			<h:form id="formDialog">
+				<p:messages id="msg" />
+				<div class="ui-fluid">
+					<div class="card overview">
+						<p:panel header="#{msg.heUsuarios}">
+							<div class="ui-g">
+								<div class="ui-g-12 ui-md-6 ui-lg-6">
+									<h:panelGroup styleClass="md-inputfield">
+										<p:inputText id="txtNombres"
+											binding="#{gestionPersonasView.txtNombres}" />
+										<label>#{msg.lblNombre}</label>
+									</h:panelGroup>
+									<p:message for="txtNombres" />
+								</div>
+								<div class="ui-g-12 ui-md-6 ui-lg-6">
+									<h:panelGroup styleClass="md-inputfield">
+										<p:inputText id="txtApellidos"
+											binding="#{gestionPersonasView.txtApellidos}" />
+										<label>#{msg.lblApellidos}</label>
+									</h:panelGroup>
+									<p:message for="txtApellidos" />
+								</div>
+
+							</div>
+
+							<div class="ui-g">
+
+								<div class="ui-g-12 ui-md-4 ui-lg-4">
+									<h:panelGroup styleClass="md-inputfield">
+										<p:inputText id="txtEmail"
+											binding="#{gestionPersonasView.txtEmail}" />
+										<label>#{msg.lblEmail}</label>
+									</h:panelGroup>
+									<p:message for="txtEmail" />
+								</div>
+
+								<div class="ui-g-12 ui-md-4 ui-lg-4">
+									<h:panelGroup styleClass="md-inputfield">
+										<p:password id="pwdPassword"
+											binding="#{gestionPersonasView.pwdPassword}" />
+										<label>#{msg.lblPassword}</label>
+									</h:panelGroup>
+									<p:message for="pwdPassword" />
+								</div>
+								<div class="ui-g-12 ui-md-4 ui-lg-4">
+									<h:panelGroup styleClass="md-inputfield">
+										<p:password id="pwdConfirmarPassword"
+											binding="#{gestionPersonasView.pwdConfirmarPassword}" />
+										<label>#{msg.lblConfirmarPassword}</label>
+									</h:panelGroup>
+									<p:message for="pwdConfirmarPassword" />
+								</div>
+							</div>
+
+							<div class="ui-g">
+								<div class="ui-g-12 ui-md-2 ui-lg-2">
+									<p:commandButton value="#{msg.lblProyectos}"
+										action="#{gestionPersonasView.asignarProyectos}"
+										update=":dialogProyectos" />
+								</div>
+								<div class="ui-g-12 ui-md-4 ui-lg-4">
+									<h:panelGroup styleClass="md-inputfield">
+										<p:inputTextarea id="txtProyectosSeleccionados"
+											readonly="true"
+											binding="#{gestionPersonasView.txtProyectosSeleccionados}" />
+										<label>#{msg.lblProyectos}</label>
+									</h:panelGroup>
+									<p:message for="txtProyectosSeleccionados" />
+								</div>
+								<div class="ui-g-12 ui-md-2 ui-lg-2">
+									<h:panelGroup styleClass="md-inputfield">
+										<p:inputNumber id="txtSalario"
+											binding="#{gestionPersonasView.txtSalario}" />
+										<label>#{msg.lblSalario}</label>
+									</h:panelGroup>
+									<p:message for="txtSalario" />
+								</div>
+								<div class="ui-g-12 ui-md-2 ui-lg-2">
+									<h:panelGroup styleClass="md-inputfield">
+										<p:inputNumber id="txtValorHora"
+											binding="#{gestionPersonasView.txtValorHora}" />
+										<label>#{msg.lblValorHora}</label>
+									</h:panelGroup>
+									<p:message for="txtValorHora" />
+								</div>
+								<div class="ui-g-12 ui-md-2 ui-lg-2">
+									<h:panelGrid columns="2">
+										<p:outputLabel value="#{msg.lblAdministrador}" />
+										<p:selectBooleanCheckbox
+											value="#{gestionPersonasView.esAdministrador}" />
+									</h:panelGrid>
+								</div>
+							</div>
+						</p:panel>
+
+						<p:panel>
+							<div class="ui-g" align="center">
+								<div class="ui-g-12 ui-md-6 ui-lg-6">
+									<p:commandButton id="btnSave" value="#{msg.lblGuardar}"
+										action="#{gestionPersonasView.guardarPersona}"
+										update=":formDialog" />
+								</div>
+								<div class="ui-g-12 ui-md-6 ui-lg-6">
+									<p:commandButton id="btnClear" value="Limpiar Pantalla"
+										action="#{gestionPersonasView.limpiarFormularioPersonas}"
+										update=":formDialog" />
+								</div>
+							</div>
+
+						</p:panel>
+					</div>
+				</div>
+
+				<div class="card overview">
+					<p:panel header="#{msg.heUsuarios}">
+
+						<div class="ui-g">
+							<p:dataTable value="#{gestionPersonasView.personas}"
+								var="persona" reflow="true" scrollable="true" scrollWidth="100%"
+								paginator="true" filterDelay="1000"
+								emptyMessage="#{msgs.msgTablaVacia}"
+								paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+								rowsPerPageTemplate="5,15,20" rows="5">
+								<p:column headerText="#{msg.lblNombre}"
+									style="text-align: center">
+									<h:outputText value="#{persona.nombreCompleto}" />
+								</p:column>
+								<p:column headerText="#{msg.lblEmail}"
+									style="text-align: center">
+									<h:outputText value="#{persona.email}" />
+								</p:column>
+								<p:column headerText="#{msg.lblProyectos}"
+									style="text-align: center">
+									<h:outputText value="#{persona.proyectos}" />
+								</p:column>
+							</p:dataTable>
+						</div>
+
+					</p:panel>
+				</div>
+
+			</h:form>
+
+			<p:dialog id="dialogProyectos" draggable="true" closable="false"
+				responsive="true"
+				visible="#{gestionPersonasView.esVisibleDlgProyectos}"
+				resizable="false" modal="true" width="60%" height="65%">
+				<h:form id="frmProyectos">
+					<div class="ui-fluid">
+						<div class="card overview">
+							<p:panel header="#{msg.heProyectos}">
+								<p:dataTable value="#{gestionPersonasView.lstProyectos}"
+									var="proyecto" reflow="true"
+									selection="#{gestionPersonasView.lstProyectosSeleccionados}"
+									rowKey="#{proyecto.proyId}" scrollable="true"
+									scrollWidth="100%" paginator="true" filterDelay="1000"
+									emptyMessage="#{msgs.msgTablaVacia}"
+									paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+									rowsPerPageTemplate="10,20,30" rows="20">
+									<p:column selectionMode="multiple"
+										style="width:16px;text-align:center" />
+									<p:column headerText="#{msg.lblNombre}"
+										style="text-align: center"
+										filterBy="#{proyecto.nombreProyecto}" 
+										filterMatchMode="contains">
+										<h:outputText value="#{proyecto.nombreProyecto}" />
+									</p:column>
+									<p:column headerText="#{msg.lblLineaNegocio}"
+										style="text-align: center"
+										filterBy="#{proyecto.lineaNegocio}" 
+										filterMatchMode="contains">
+										<h:outputText value="#{proyecto.lineaNegocio}" />
+									</p:column>
+									<p:column headerText="#{msg.lblValorHora}"
+										style="text-align: center">
+										<p:inputNumber value="#{proyecto.valorHoraRecurso}" />
+									</p:column>
+								</p:dataTable>
+							</p:panel>
+
+							<div class="ui-g">
+								<div class="ui-g-12 ui-md-6 ui-lg-6">
+									<p:commandButton value="#{msg.lblGuardar}"
+										action="#{gestionPersonasView.seleccionarProyectos}"
+										update=":dialogProyectos, :formDialog" />
+								</div>
+								<div class="ui-g-12 ui-md-6 ui-lg-6">
+									<p:commandButton value="#{msg.lblSalir}"
+										action="#{gestionPersonasView.cerrarDialogoAsignarProyectos}"
+										update=":dialogProyectos" />
+								</div>
+							</div>
+
+						</div>
+					</div>
+
+				</h:form>
+			</p:dialog>
+		</f:view>
+	</ui:define>
+</ui:composition>

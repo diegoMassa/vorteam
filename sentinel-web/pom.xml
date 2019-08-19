@@ -1,0 +1,169 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>com.vortexbird.sentinel</groupId>
+		<artifactId>sentinel-parent</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+	</parent>
+	<artifactId>sentinel-web</artifactId>
+	<name>Proyecto web</name>
+	<packaging>war</packaging>
+
+
+	<dependencies>
+
+		<dependency>
+			<groupId>com.vortexbird.sentinel</groupId>
+			<artifactId>sentinel-logic</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.vortexbird.sentinel</groupId>
+			<artifactId>sentinel-config</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+		</dependency>
+
+		<!-- Primefaces -->
+		<dependency>
+			<groupId>org.primefaces.themes</groupId>
+			<artifactId>all-themes</artifactId>
+			<version>1.0.10</version>
+		</dependency>
+		<dependency>
+			<groupId>org.primefaces</groupId>
+			<artifactId>primefaces</artifactId>
+			<version>${primefaces.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.primefaces.extensions</groupId>
+			<artifactId>primefaces-extensions</artifactId>
+			<version>3.1.0</version>
+		</dependency>
+		<!-- Primefaces -->
+
+		<!-- Spring Framework web -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<!-- <dependency> <groupId>org.springframework</groupId> <artifactId>spring-webmvc-portlet</artifactId> 
+			<version>${spring.version}</version> </dependency> -->
+
+		<!-- Spring Framework web -->
+
+
+
+		<dependency>
+			<groupId>org.glassfish</groupId>
+			<artifactId>javax.servlet.jsp.jstl</artifactId>
+			<version>3.1.1</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.glassfish</groupId>
+			<artifactId>javax.servlet.jsp</artifactId>
+			<version>3.1.1</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.glassfish</groupId>
+			<artifactId>javax.servlet</artifactId>
+			<version>3.1.1</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.glassfish</groupId>
+			<artifactId>javax.faces</artifactId>
+			<version>${mojarra.version}</version>
+		</dependency>
+
+		<!-- Libreria para exportar archivos .pdf .xls .xml -->
+
+		<dependency>
+			<groupId>com.lowagie</groupId>
+			<artifactId>itext</artifactId>
+			<version>2.1.7</version>
+		</dependency>
+
+		<!-- Librerias para cargar achivos -->
+
+		<dependency>
+			<groupId>commons-fileupload</groupId>
+			<artifactId>commons-fileupload</artifactId>
+			<version>1.3.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.4</version>
+		</dependency>
+
+		<!-- Librerias para cargar achivos -->
+	<!-- https://mvnrepository.com/artifact/ai.api/libai -->
+		<dependency>
+		    <groupId>ai.api</groupId>
+		    <artifactId>libai</artifactId>
+		    <version>1.6.11</version>
+		</dependency>
+				
+				
+		<!-- https://mvnrepository.com/artifact/ai.api.libai.web/libai-web-servlet -->
+		<dependency>
+		    <groupId>ai.api.libai.web</groupId>
+		    <artifactId>libai-web-servlet</artifactId>
+		    <version>1.6.11</version>
+		</dependency>
+				
+				
+	</dependencies>
+
+
+
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.1</version>
+				<configuration>
+					<encoding>UTF-8</encoding>
+					<source>1.7</source>
+					<target>1.7</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>2.4</version>
+				<configuration>
+					<encoding>UTF-8</encoding>
+					<version>3.0</version>
+					<failOnMissingWebXml>false</failOnMissingWebXml>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-eclipse-plugin</artifactId>
+				<version>2.8</version>
+				<configuration>
+					<encoding>UTF-8</encoding>
+					<additionalProjectFacets>
+						<jst.web>3.0</jst.web>
+						<jst.java>8.0</jst.java>
+						<jst.jsf>2.2</jst.jsf>
+						<wst.jsdt.web>1.0</wst.jsdt.web>
+					</additionalProjectFacets>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>

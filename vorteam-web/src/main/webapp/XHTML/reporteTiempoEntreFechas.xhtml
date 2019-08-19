@@ -1,0 +1,102 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+
+	<ui:define name="content">
+		<f:view locale="#{localeBean.locale}">
+			<h:form id="formDialog">
+				<p:messages id="msg" />
+				<div class="ui-fluid">
+					<div class="card overview">
+						<p:panel header="#{msg.heReporteEntreFechas}">
+							<div class="ui-g">
+								<div class="ui-g-12 ui-md-6 ui-lg-6">
+									<h:panelGroup styleClass="md-inputfield">
+										<p:calendar id="calFechaInicial"
+											pattern="#{msg.lblAnhoMesDia}"
+											binding="#{reporteTiempoEntreFechasView.calFechaInicial}" />
+										<label>#{msg.lblFechaInicio}</label>
+									</h:panelGroup>
+									<p:message for="calFechaInicial" />
+								</div>
+								<div class="ui-g-12 ui-md-6 ui-lg-6">
+									<h:panelGroup styleClass="md-inputfield">
+										<p:calendar id="calFechaFinal" pattern="#{msg.lblAnhoMesDia}"
+											binding="#{reporteTiempoEntreFechasView.calFechaFinal}" />
+										<label>#{msg.lblFechaFin}</label>
+									</h:panelGroup>
+									<p:message for="calFechaFinal" />
+								</div>
+							</div>
+							<div class="ui-g">
+								<div class="ui-g-12 ui-md-6 ui-lg-6">
+									<p:commandButton value="#{msg.lblConsultar}"
+										icon="#{icon.iconSearch}"
+										action="#{reporteTiempoEntreFechasView.generarReporte}"
+										update=":formDialog" />
+								</div>
+								<div class="ui-g-12 ui-md-6 ui-lg-6">
+									<p:commandButton value="#{msg.lblLimpiar}"
+										icon="#{icon.iconClean}"
+										action="#{reporteTiempoEntreFechasView.limpiarPantalla}"
+										update=":formDialog" />
+								</div>
+							</div>
+						</p:panel>
+					</div>
+
+					<div class="card overview">
+						<p:panel header="#{msg.heReporteEntreFechas}">
+							<p:dataTable value="#{reporteTiempoEntreFechasView.reporte}"
+								var="reporte" reflow="true" scrollable="true" scrollWidth="100%"
+								paginator="true" filterDelay="1000"
+								emptyMessage="#{msgs.msgTablaVacia}"
+								paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+								rowsPerPageTemplate="15,30,45" rows="15">
+								<p:column headerText="#{msg.lblSemana}"
+									filterBy="#{reporte.semana}" sortBy="#{reporte.semana}"
+									style="text-align: center">
+									<h:outputText value="#{reporte.semana}" />
+								</p:column>
+								<p:column headerText="#{msg.lblNombre}"
+									filterBy="#{reporte.nombreCompleto}"
+									sortBy="#{reporte.nombreCompleto}" style="text-align: center">
+									<h:outputText value="#{reporte.nombreCompleto}" />
+								</p:column>
+								<p:column headerText="#{msg.lblHorasEjecutadas}"
+									style="text-align: center">
+									<h:outputText value="#{reporte.horas}" />
+								</p:column>
+
+							</p:dataTable>
+						</p:panel>
+						<div align="center">
+							<h:panelGrid columns="2">
+								<p:commandButton id="btnXLSX" value="#{msg.lblDescargaXLSX}"
+									onclick="PrimeFaces.monitorDownload(showStatus, hideStatus)"
+									ajax="false"
+									disabled="#{reporteTiempoEntreFechasView.deshabilitarBotonesDescarga}">
+									<p:fileDownload
+										value="#{reporteTiempoEntreFechasView.reporteXlsx}" />
+								</p:commandButton>
+
+								<p:commandButton id="btnPDF" value="#{msg.lblDescargaPDF}"
+									onclick="PrimeFaces.monitorDownload(showStatus, hideStatus)"
+									ajax="false"
+									disabled="#{reporteTiempoEntreFechasView.deshabilitarBotonesDescarga}">
+									<p:fileDownload
+										value="#{reporteTiempoEntreFechasView.reportePdf}" />
+								</p:commandButton>
+
+							</h:panelGrid>
+						</div>
+					</div>
+
+				</div>
+			</h:form>
+
+		</f:view>
+	</ui:define>
+</ui:composition>

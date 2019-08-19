@@ -1,0 +1,179 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 18-mar-2015 0:14:02 by Hibernate Tools 4.0.0 -->
+<hibernate-mapping>
+
+	<sql-query name="consultaPermisosDeOpcionesAsignadosARolesYUsuarios">
+		<return alias="permiso" class="com.vortexbird.sentinel.modelo.SegPermiso" />		
+	
+		<![CDATA[
+			SELECT 	permiso.*  
+			FROM 	seguridad.seg_permiso permiso  
+			WHERE 	permiso.rol_codigo = :codigoRol  
+			AND 	permiso.sic_codigo = :sicCodigo  
+			UNION	 
+			SELECT 	permiso.*  
+			FROM 	seguridad.seg_permiso permiso  
+			WHERE 	permiso.usu_codigo = :usuCodigo  
+			AND 	permiso.sic_codigo = :sicCodigo	
+		
+		]]>
+		
+	</sql-query>
+	
+	
+	<sql-query name="consultaPermisosDeOpcionesAsignadosARolesYUsuariosPorSistemaCompaniaYOpcion">
+		<return alias="permiso" class="com.vortexbird.sentinel.modelo.SegPermiso" />		
+	
+		<![CDATA[
+			SELECT permiso.*  
+			FROM seguridad.seg_permiso  permiso
+			WHERE permiso.rol_codigo=:codigoRol  
+			AND permiso.sic_codigo=:sicCodigo  
+			AND permiso.opc_codigo=:codigoOpcion  
+			UNION	 
+			SELECT permiso.*  
+			FROM seguridad.seg_permiso permiso  
+			WHERE permiso.usu_codigo=:usuCodigo  
+			AND permiso.sic_codigo=:sicCodigo  
+			AND permiso.opc_codigo=:codigoOpcion
+		]]>
+		
+	</sql-query>
+	
+	
+	<sql-query name="consultaPermisosDeOpcionesAsignadosARolesPorSistemaCompaniaYOpcion">
+		<return alias="permiso" class="com.vortexbird.sentinel.modelo.SegPermiso" />		
+	
+		<![CDATA[
+			SELECT 	permiso.*  
+			FROM 	seguridad.seg_permiso permiso  
+			WHERE 	permiso.rol_codigo=:codigoRol  
+			AND 	permiso.sic_codigo=:sicCodigo  
+			AND 	permiso.opc_codigo=:codigoOpcion 
+		]]>
+		
+	</sql-query>
+	
+	
+	<sql-query name="consultaPermisosDeOpcionesAsignadosARolesYUsuariosPorSistemaCompaniaYGrupo">
+		<return alias="permiso" class="com.vortexbird.sentinel.modelo.SegPermiso" />		
+	
+		<![CDATA[
+			SELECT permiso.*  
+			FROM seguridad.seg_permiso permiso  
+			WHERE permiso.rol_codigo=:codigoRol  
+			AND permiso.sic_codigo=:sicCodigo  
+			AND permiso.gru_codigo=:codigoGrupo  
+			UNION	 
+			SELECT permiso.*  
+			FROM seguridad.seg_permiso permiso  
+			WHERE permiso.usu_codigo=:usuCodigo  
+			AND permiso.sic_codigo=:sicCodigo  
+			AND permiso.gru_codigo=:codigoGrupo
+		]]>
+		
+	</sql-query>
+	
+	
+	<sql-query name="consultaPermisosDeOpcionesAsignadosARolesPorSistemaCompaniaYGrupo">
+		<return alias="permiso" class="com.vortexbird.sentinel.modelo.SegPermiso" />		
+	
+		<![CDATA[
+			SELECT permiso.*  
+			FROM seguridad.seg_permiso permiso  
+			WHERE permiso.rol_codigo=:codigoRol  
+			AND permiso.sic_codigo=:sicCodigo  
+			AND permiso.gru_codigo=:codigoGrupo 
+		]]>
+		
+	</sql-query>
+	
+	<sql-query name="consultarRolPorSistemaCompania">
+	
+		<return-scalar column="rolCodigo" type="java.lang.Long" />
+		<return-scalar column="rolNombre" type="java.lang.String" />
+		<return-scalar column="rolDescripcion" type="java.lang.String" />
+		<return-scalar column="rolDiasCaducidadPwd" type="java.lang.Long" />
+		<return-scalar column="sisCodigo_SegSistema" type="java.lang.String" />
+		<return-scalar column="rolEstadoRegistro" type="java.lang.String" />
+		<return-scalar column="usuCodigo_SegUsuario" type="java.lang.Long" />
+		<return-scalar column="esAdmonDeSistema" type="java.lang.String" />		
+	
+		<![CDATA[
+		
+			SELECT  rol.rol_codigo rolCodigo,
+					rol.rol_nombre rolNombre,
+					rol.rol_descripcion rolDescripcion,
+					rol.rol_dias_caducidad_pwd rolDiasCaducidadPwd,
+					rol.seg_sistema_sis_codigo sisCodigo_SegSistema,
+					rol.rol_estado_registro rolEstadoRegistro,
+					rol.mod_usu_codigo usuCodigo_SegUsuario,
+					rol.es_admon_de_aplicacion esAdmonDeSistema
+					
+			FROM seguridad.seg_rol rol
+					INNER JOIN seguridad.seg_sistema sistema on sistema.sis_codigo = seg_sistema_sis_codigo
+					INNER JOIN seguridad.seg_sistema_cia siscia on  siscia.seg_sistema_sis_codigo = sistema.sis_codigo
+					INNER JOIN seguridad.seg_compania compania on siscia.seg_compania_cia_codigo = compania.cia_codigo
+					
+			WHERE 	sistema.sis_codigo = :pSisCodigo
+					AND compania.cia_codigo = :pCiaCodigo
+					AND rol.rol_estado_registro = 'A'
+					AND sistema.sis_estado_registro = 'A'
+					AND siscia.sic_estado_registro = 'A'
+					AND compania.cia_estado_registro = 'A'
+					
+			ORDER BY rol.rol_codigo 
+		
+		]]>
+		
+	</sql-query>
+	
+	<sql-query name="consultarRolPorUsuarioSistemaCompania">
+	
+		<return-scalar column="rolCodigo" type="java.lang.Long" />
+		<return-scalar column="rolNombre" type="java.lang.String" />
+		<return-scalar column="rolDescripcion" type="java.lang.String" />
+		<return-scalar column="rolDiasCaducidadPwd" type="java.lang.Long" />
+		<return-scalar column="sisCodigo_SegSistema" type="java.lang.String" />
+		<return-scalar column="rolEstadoRegistro" type="java.lang.String" />
+		<return-scalar column="usuCodigo_SegUsuario" type="java.lang.Long" />
+		<return-scalar column="esAdmonDeSistema" type="java.lang.String" />		
+	
+		<![CDATA[
+		
+			SELECT  rol.rol_codigo rolCodigo,
+					rol.rol_nombre rolNombre,
+					rol.rol_descripcion rolDescripcion,
+					rol.rol_dias_caducidad_pwd rolDiasCaducidadPwd,
+					rol.seg_sistema_sis_codigo sisCodigo_SegSistema,
+					rol.rol_estado_registro rolEstadoRegistro,
+					rol.mod_usu_codigo usuCodigo_SegUsuario,
+					rol.es_admon_de_aplicacion esAdmonDeSistema
+					
+			FROM seguridad.seg_rol rol
+					INNER JOIN seguridad.seg_sistema sistema on sistema.sis_codigo = seg_sistema_sis_codigo
+					INNER JOIN seguridad.seg_sistema_cia siscia on  siscia.seg_sistema_sis_codigo = sistema.sis_codigo
+					INNER JOIN seguridad.seg_compania compania on siscia.seg_compania_cia_codigo = compania.cia_codigo
+					INNER JOIN seguridad.seg_rol_usuario rlu on rlu.seg_rol_rol_codigo = rol.rol_codigo
+					INNER JOIN seguridad.seg_usuario usuario on usuario.usu_codigo = rlu.seg_usuario_usu_codigo
+			
+			WHERE 	usuario.usu_login = :pLogin
+					AND sistema.sis_codigo = :pSisCodigo
+					AND compania.cia_codigo = :pCiaCodigo
+					AND rol.rol_estado_registro = 'A'
+					AND sistema.sis_estado_registro = 'A'
+					AND siscia.sic_estado_registro = 'A'
+					AND compania.cia_estado_registro = 'A'
+					AND rlu.rlu_estado_registro = 'A'
+					AND usuario.usu_estado_registro = 'A'
+					
+			ORDER BY rol.rol_codigo 
+		
+		]]>
+		
+	</sql-query>
+	
+	
+</hibernate-mapping>

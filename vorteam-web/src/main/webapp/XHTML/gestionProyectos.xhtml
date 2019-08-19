@@ -1,0 +1,198 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+
+	<ui:define name="content">
+		<f:view locale="#{localeBean.locale}">
+			<h:form id="frm">
+				<div class="ui-fluid">
+					<div class="card overview">
+
+						<p:panel id="pnlProyectos" header="#{msg.heProyectos}">
+							<p:growl id="men" />
+
+							<p:dataTable value="#{gestionProyectosView.proyectos}"
+								var="proyecto" scrollable="true" scrollWidth="100%"
+								paginator="true" filterDelay="1000" reflow="true"
+								emptyMessage="#{msgs.msgTablaVacia}"
+								paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+								rowsPerPageTemplate="10,20,30" rows="10">
+								<p:column headerText="#{msg.lblNombreProyecto}"
+									style="text-align: center"
+									filterBy="#{proyecto.nombreProyecto}" 
+									filterMatchMode="contains">
+									<h:outputText value="#{proyecto.nombreProyecto}" />
+								</p:column>
+								<p:column headerText="#{msg.lblCliente}"
+									style="text-align: center"
+									filterBy="#{proyecto.nombreCliente}" 
+									filterMatchMode="contains">
+									<h:outputText value="#{proyecto.nombreCliente}" />
+								</p:column>
+								<p:column headerText="#{msg.lblLineaNegocio}"
+									style="text-align: center"
+									filterBy="#{proyecto.lineaNegocio}" 
+									filterMatchMode="contains">
+									<h:outputText value="#{proyecto.lineaNegocio}" />
+								</p:column>
+								<p:column headerText="#{msg.lblUsuarios}"
+									style="text-align: center"
+									filterBy="#{proyecto.recursosHumanos}" 
+									filterMatchMode="contains">
+									<h:outputText value="#{proyecto.recursosHumanos}" />
+								</p:column>
+								<p:column headerText="#{msg.lblCostoTotal}"
+									style="text-align: center"
+									filterBy="#{proyecto.costoTotal}" 
+									filterMatchMode="contains">
+									<h:outputText value="#{proyecto.costoTotal}" >
+										<f:convertNumber pattern="$#,##0" />
+									</h:outputText>
+								</p:column>
+								<p:column headerText="#{msg.lblEstado}"
+									style="text-align: center" width="10%"
+									filterBy="#{proyecto.activoDescripcion}" 
+									filterMatchMode="contains">
+									<h:outputText
+										value="#{proyecto.activoDescripcion}" />
+								</p:column>
+								<p:column headerText="#{msg.lblOpciones}" width="10%"
+									style="text-align: center">
+									<p:commandButton icon="#{icon.iconUpdate}"
+										value="#{msg.lblModificar}"
+										actionListener="#{gestionProyectosView.modificarProyecto}"
+										update=":dialogProyecto">
+										<f:attribute name="proyId" value="#{proyecto.proyId}" />
+									</p:commandButton>
+								</p:column>
+								<f:facet name="footer">
+									<div align="right">
+										<p:commandButton id="btnNuevo"
+											action="#{gestionProyectosView.nuevoProyecto}"
+											update=":dialogProyecto" styleClass="oro" icon="ui-icon-add" />
+									</div>
+								</f:facet>
+							</p:dataTable>
+
+
+						</p:panel>
+					</div>
+				</div>
+
+			</h:form>
+
+			<p:dialog id="dialogProyecto" draggable="true" closable="true"
+				responsive="true" closeOnEscape="true"
+				visible="#{gestionProyectosView.esVisibleDlgProyecto}"
+				resizable="true" modal="true" width="60%" height="90%">
+				<h:form id="frmProyecto">
+					<div class="ui-fluid">
+						<div class="ui-g">
+							<div class="ui-g-12 ui-md-6">
+								<h:panelGroup styleClass="md-inputfield">
+									<p:inputText id="txtNombreProyecto"
+										binding="#{gestionProyectosView.txtNombreProyecto}" />
+									<label>#{msg.lblNombreProyecto}</label>
+								</h:panelGroup>
+								<p:message for="txtNombreProyecto" />
+							</div>
+							<div class="ui-g-12 ui-md-6">
+								<h:panelGroup styleClass="md-inputfield">
+									<p:inputNumber id="txtCostoTotal"
+										binding="#{gestionProyectosView.txtCostoTotal}" />
+									<label>#{msg.lblCostoTotal}</label>
+								</h:panelGroup>
+								<p:message for="txtCostoTotal" />
+							</div>
+						</div>
+						<div class="ui-g">
+							<div class="ui-g-12 ui-md-4 ui-lg-4">
+								<p:selectOneMenu style="min-width:0;" id="somCliente"
+									binding="#{gestionProyectosView.somCliente}"
+									filter="true" filterMatchMode="contains">
+									<f:selectItem itemValue="#{msg.somSeleccionarValue}"
+										itemLabel="#{msg.lblSeleccionarCliente}" />
+									<f:selectItems value="#{gestionProyectosView.siClientes}" />
+								</p:selectOneMenu>
+								<p:message for="somCliente" />
+							</div>
+							<div class="ui-g-12 ui-md-4 ui-lg-4">
+								<p:selectOneMenu style="min-width:0;" id="somLineaNegocio"
+									binding="#{gestionProyectosView.somLineaNegocio}"
+									filter="true" filterMatchMode="contains">
+									<f:selectItem itemValue="#{msg.somSeleccionarValue}"
+										itemLabel="#{msg.lblSeleccionarLineaNegocio}" />
+									<f:selectItems value="#{gestionProyectosView.siLineasNegocio}" />
+								</p:selectOneMenu>
+								<p:message for="somLineaNegocio" />
+							</div>
+							<div class="ui-g-12 ui-md-4 ui-lg-4">
+								<p:selectOneMenu style="min-width:0;" id="somEstadoProyecto"
+									binding="#{gestionProyectosView.somEstadoProyecto}"
+									filter="true" filterMatchMode="contains">
+									<f:selectItem itemValue="#{msg.somSeleccionarValue}"
+										itemLabel="#{msg.lblSeleccionarEstado}" />
+									<f:selectItems value="#{gestionProyectosView.siEstadosProyecto}" />
+								</p:selectOneMenu>
+								<p:message for="somEstadoProyecto" />
+							</div>
+						</div>
+						<div class="ui-g">
+							<p:dataTable value="#{gestionProyectosView.personas}"
+								var="persona" reflow="true" id="dtPersonasProyecto"
+								selection="#{gestionProyectosView.personasSeleccionadas}"
+								rowKey="#{persona.persId}" scrollable="true" scrollHeight="260"
+								 filterDelay="1000"
+								emptyMessage="#{msgs.msgTablaVacia}">
+								<p:column selectionMode="multiple"
+									style="width:16px;text-align:center" />
+								<p:column headerText="#{msg.lblNombre}"
+									style="text-align: center">
+									<h:outputText value="#{persona.nombreCompleto}" />
+								</p:column>
+								<p:column headerText="#{msg.lblEmail}"
+									style="text-align: center">
+									<h:outputText value="#{persona.email}" />
+								</p:column>
+								<p:column headerText="#{msg.lblValorHora}"
+									style="text-align: center">
+									<p:inputText value="#{persona.valorHora}" />
+								</p:column>
+								<p:column headerText="#{msg.lblProyectos}"
+									style="text-align: center">
+									<h:outputText value="#{persona.proyectos}" />
+								</p:column>
+							</p:dataTable>
+							<p:message for="dtPersonasProyecto" />
+						</div>
+
+						<div class="ui-g">
+							<div class="ui-g-12 ui-md-4 ui-lg-4">
+								<p:commandButton id="btnSave" value="#{msg.lblGuardar}"
+									action="#{gestionProyectosView.guardarProyecto}"
+									update=":dialogProyecto, :frm:pnlProyectos" />
+							</div>
+
+							<div class="ui-g-12 ui-md-4 ui-lg-4">
+								<p:commandButton id="btnClear" value="Limpiar Pantalla"
+									action="#{gestionProyectosView.limpiarFormularioProyecto}"
+									update=":dialogProyecto" />
+							</div>
+
+							<div class="ui-g-12 ui-md-4 ui-lg-4">
+								<p:commandButton id="btnExit" value="Salir" styleClass="ui-g-12"
+									action="#{gestionProyectosView.cerrarDlgProyecto}"
+									update=":dialogProyecto" />
+
+							</div>
+						</div>
+
+					</div>
+				</h:form>
+			</p:dialog>
+
+		</f:view>
+	</ui:define>
+</ui:composition>

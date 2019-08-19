@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<jdbcDataAdapter class="net.sf.jasperreports.data.jdbc.JdbcDataAdapterImpl"><name>VorteamDataAdapterJDBCConnection</name><driver>org.postgresql.Driver</driver><username>postgres</username><password>Pr0dVorT3xKtK1</password><savePassword>true</savePassword><url>jdbc:postgresql://52.45.198.51:5432/Vorteam</url><database></database><serverAddress></serverAddress></jdbcDataAdapter>

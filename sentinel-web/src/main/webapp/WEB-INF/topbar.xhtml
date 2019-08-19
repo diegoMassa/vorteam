@@ -1,0 +1,40 @@
+<ui:composition 
+
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+    
+    
+    <div id="layout-header" class="Unselectable fontRegular">
+        <a href="dashboard.xhtml" id="layout-logo">
+            <h:graphicImage name="images/Logo.png" styleClass="Fleft" library="sentinel-layout"/>
+        </a>
+    	<ul id="sm-topmenu" class="layout-header-widgets white Fs14">
+    	
+    		<li class="Fleft BordRadHalf TexAlCenter"><i class="icon-user-male"></i>
+    			<ul class="layout-header-widgets-submenu BordRad5 shadows white Animated05">
+    				<li class="Animated05"><a class="white Unselectable"><i class="icon-user-male Fs26 OvHidden"></i><span class="Fs18">#{menuView.nombrePersona}<br/><span class="Fs10">#{menuView.empresaPersona} - #{menuView.anoFiscal} - #{menuView.estadoAnoFiscal}</span></span></a></li>
+    			</ul>
+    		</li>
+    		
+    		<li class="Fleft BordRadHalf TexAlCenter"><i class="icon-help"></i>
+    			<ul class="layout-header-widgets-submenu BordRad5 shadows white Animated05">
+    				<li class="Animated05"><a class="white Unselectable" href="http://vortexbird.com/soporte/login_page.php" target="_blank"><i class="icon-user-male Fs26 OvHidden"></i><span class="Fs18">Soporte<br/><span class="Fs10">Mantis BT</span></span></a></li>
+    			</ul>
+    		</li>
+    		
+    		<li class="Fleft BordRadHalf TexAlCenter"><i class="icon-power"></i>
+    			<ul class="layout-header-widgets-submenu BordRad5 shadows white Animated05">
+    				<li class="Animated05"><a href="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/j_spring_security_logout" class="white Unselectable"><i class="icon-logout"></i>Salir</a></li>
+    			</ul>
+    		</li>
+    	</ul>
+    	<!-- NEVER REMOVE FOLLOWING 'UL' TAG ! BECAUSE THIS CONTAINS RESPONSIVE MODE HEADER MENU OPEN-CLOSE BUTTON -->
+    	<ul id="sm-mobiletopmenu" class="layout-header-widgets white Fs14">
+    		<li class="Fleft BordRadHalf TexAlCenter Animated05 DisplayOnResponsive"><i class="icon-th-1"></i></li>
+    	</ul>
+    	<!-- ****** -->
+   	</div>
+    
+</ui:composition>

@@ -1,0 +1,157 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" 
+	template="/WEB-INF/template.xhtml"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+	<ui:define name="content">
+		<f:view>
+
+				<p:ajaxStatus onstart="PF('statusDialog').show()"
+					onsuccess="PF('statusDialog').hide()" />
+				<p:dialog modal="true" widgetVar="statusDialog"
+					header="Cargando informacion" draggable="false" closable="false">
+					<p:graphicImage
+						value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />
+				</p:dialog>
+
+				<h:form>
+					<br />
+					<p:panel id="msgProjectSegGrupoOpcionTitle" header="Grupo Opción">
+
+						<p:messages id="msg" showDetail="false" />
+
+						<div align="center">
+							<h:panelGrid columns="2" id="panel">
+
+								<h:outputText id="msgGruNombre" value=" Nombre" />
+								<p:inputText id="txtGruNombre" disabled="false"
+									binding="#{segGrupoOpcionView.txtGruNombre}" />
+
+								<h:outputText id="msgGruEstadoRegistro" value=" Estado Registro" />
+								<p:selectOneMenu
+									binding="#{segGrupoOpcionView.somEstadosRegistro}"
+									styleClass="inputstyle">
+									<f:selectItem itemValue="-1" itemLabel="Seleccione el Estado" />
+									<f:selectItem itemValue="A" itemLabel="Activo" />
+									<f:selectItem itemValue="I" itemLabel="Inactivo" />
+								</p:selectOneMenu>
+
+								<h:outputText id="msgGruLlaveAcceso" value=" LLave de Acceso" />
+								<p:inputText id="txtGruLlaveAcceso" disabled="false"
+									binding="#{segGrupoOpcionView.txtGruLlaveAcceso}" />
+
+								<h:outputText id="msgGruCodigo_SegGrupoOpcion"
+									value=" Grupo Opción Padre" />
+								<p:selectOneMenu id="somOpcionPadre"
+									binding="#{segGrupoOpcionView.somGrupoOpcionPadre}">
+									<f:selectItem itemValue="-1"
+										itemLabel="Seleccione un Grupo padre" />
+									<f:selectItems
+										value="#{segGrupoOpcionView.losGrupoOpcionPadre}" />
+								</p:selectOneMenu>
+
+								<h:outputText id="msgGruDescripcion" value=" Descripción" />
+								<p:inputText id="txtGruDescripcion" disabled="false"
+									binding="#{segGrupoOpcionView.txtGruDescripcion}" />
+
+								<h:outputText id="msgSisCodigo_SegSistema" value=" Sistema" />
+								<p:selectOneMenu id="somCodigoSistema"
+									binding="#{segGrupoOpcionView.somSistemas}">
+									<f:selectItem itemValue="-1" itemLabel="Seleccione un sistema" />
+									<f:selectItems value="#{segGrupoOpcionView.losSistemas}" />
+								</p:selectOneMenu>
+								
+								<h:outputText value=" Orden" />
+								<p:inputText id="orden" disabled="false"
+									binding="#{segGrupoOpcionView.txtOrden}" /> 
+
+								<p:inputText id="txtGruCodigo" type="hidden" readonly="true"
+									binding="#{segGrupoOpcionView.txtGruCodigo}" />
+
+
+							</h:panelGrid>
+						</div>
+
+						<div align="center">
+							<h:panelGrid id="panelBotones" columns="3">
+
+								<p:commandButton id="btnSave" disabled="false" value="Guardar"
+									action="#{segGrupoOpcionView.action_save}"
+									update="msg,panel,panelBotones,panelGrupoOpcion"
+									binding="#{segGrupoOpcionView.btnSave}" />
+
+								<p:commandButton id="btnModify" disabled="true"
+									value="Modificar" action="#{segGrupoOpcionView.action_modify}"
+									update="msg,panel,panelBotones,panelGrupoOpcion"
+									binding="#{segGrupoOpcionView.btnModify}" />
+
+								<p:commandButton id="btnClear" disabled="false" value="Limpiar"
+									action="#{segGrupoOpcionView.action_clear}"
+									update="msg,panel,panelBotones"
+									binding="#{segGrupoOpcionView.btnClear}" />
+
+							</h:panelGrid>
+						</div>
+
+						<br />
+
+						<div align="center">
+							<h:panelGrid id="panelGrupoOpcion">
+								<p:dataTable value="#{segGrupoOpcionView.data}"
+									var="segGrupoOpcion" paginator="true" rows="10">
+
+									<p:column headerText="Editar">
+										<h:commandLink action="#{segGrupoOpcionView.action_selected}" style="color:blue;">
+											<h:outputText value="Editar" />
+											<f:param name="gruCodigo" value="#{segGrupoOpcion.gruCodigo}" />
+										</h:commandLink>
+									</p:column>
+
+									<p:column filterBy="#{segGrupoOpcion.gruNombre}"
+										sortBy="#{segGrupoOpcion.gruNombre}" headerText="Nombre">
+										<h:outputText value="#{segGrupoOpcion.gruNombre}" />
+									</p:column>
+
+									<p:column filterBy="#{segGrupoOpcion.gruEstadoRegistro}"
+										sortBy="#{segGrupoOpcion.gruEstadoRegistro}"
+										headerText="Estado Registro">
+										<h:outputText value="#{segGrupoOpcion.gruEstadoRegistro}" />
+									</p:column>
+
+									<p:column filterBy="#{segGrupoOpcion.gruLlaveAcceso}"
+										sortBy="#{segGrupoOpcion.gruLlaveAcceso}"
+										headerText="LLave de Acceso">
+										<h:outputText value="#{segGrupoOpcion.gruLlaveAcceso}" />
+									</p:column>
+
+									<p:column filterBy="#{segGrupoOpcion.orden}"
+										sortBy="#{segGrupoOpcion.orden}"
+										headerText="Orden">
+										<h:outputText value="#{segGrupoOpcion.orden}" />
+									</p:column>
+
+									<p:column filterBy="#{segGrupoOpcion.segNombre_SegGrupoPadre}"
+										sortBy="#{segGrupoOpcion.gruCodigo_SegGrupoOpcion}"
+										headerText="Grupo Opción Padre">
+										<h:outputText
+											value="#{segGrupoOpcion.segNombre_SegGrupoPadre}" />
+									</p:column>
+
+									<p:column filterBy="#{segGrupoOpcion.sisNombre_SegSistema}"
+										sortBy="#{segGrupoOpcion.sisCodigo_SegSistema}"
+										headerText="Sistema">
+										<h:outputText value="#{segGrupoOpcion.sisNombre_SegSistema}" />
+									</p:column>
+								</p:dataTable>
+							</h:panelGrid>
+						</div>
+					</p:panel>
+
+				</h:form>
+			</f:view>
+	</ui:define>
+
+</ui:composition>

@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Oct 15, 2016 4:43:12 PM by Hibernate Tools 4.0.0 -->
+<hibernate-mapping>
+    <class name="com.vortexbird.sentinel.modelo.SegCompania" table="seg_compania" schema="seguridad">
+        <id name="ciaCodigo" type="java.lang.Long">
+            <column name="cia_codigo" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="segUsuario" class="com.vortexbird.sentinel.modelo.SegUsuario" fetch="select">
+            <column name="mod_usu_codigo" />
+        </many-to-one>
+        <property name="ciaCodigoInterno" type="java.lang.String">
+            <column name="cia_codigo_interno" length="15" not-null="true" />
+        </property>
+        <property name="ciaNombre" type="java.lang.String">
+            <column name="cia_nombre" length="50" not-null="true" />
+        </property>
+        <property name="ciaEstadoRegistro" type="java.lang.String">
+            <column name="cia_estado_registro" length="1" not-null="true" />
+        </property>
+        <set name="segSistemaCias" table="seg_sistema_cia" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="seg_compania_cia_codigo" not-null="true" />
+            </key>
+            <one-to-many class="com.vortexbird.sentinel.modelo.SegSistemaCia" />
+        </set>
+        <set name="segSucursals" table="seg_sucursal" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="cia_codigo" not-null="true" />
+            </key>
+            <one-to-many class="com.vortexbird.sentinel.modelo.SegSucursal" />
+        </set>
+    </class>
+</hibernate-mapping>

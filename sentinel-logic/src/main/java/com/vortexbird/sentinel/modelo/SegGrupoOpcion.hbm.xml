@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Oct 15, 2016 4:43:12 PM by Hibernate Tools 4.0.0 -->
+<hibernate-mapping>
+    <class name="com.vortexbird.sentinel.modelo.SegGrupoOpcion" table="seg_grupo_opcion" schema="seguridad">
+        <id name="gruCodigo" type="java.lang.Long">
+            <column name="gru_codigo" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="segSistema" class="com.vortexbird.sentinel.modelo.SegSistema" fetch="select">
+            <column name="sis_codigo" not-null="true" />
+        </many-to-one>
+        <many-to-one name="segGrupoOpcion" class="com.vortexbird.sentinel.modelo.SegGrupoOpcion" fetch="select">
+            <column name="gru_codigo_padre" />
+        </many-to-one>
+        <many-to-one name="segUsuario" class="com.vortexbird.sentinel.modelo.SegUsuario" fetch="select">
+            <column name="mod_usu_codigo" />
+        </many-to-one>
+        <property name="gruNombre" type="java.lang.String">
+            <column name="gru_nombre" length="50" not-null="true" />
+        </property>
+        <property name="gruDescripcion" type="java.lang.String">
+            <column name="gru_descripcion" length="200" />
+        </property>
+        <property name="gruLlaveAcceso" type="java.lang.String">
+            <column name="gru_llave_acceso" length="200" />
+        </property>
+        <property name="gruEstadoRegistro" type="java.lang.String">
+            <column name="gru_estado_registro" length="1" not-null="true" />
+        </property>
+        <property name="gruIcono" type="java.lang.String">
+            <column name="gru_icono" length="200" />
+        </property>
+        
+        <property name="orden" type="java.lang.Integer">
+            <column name="orden"/>
+        </property>
+        
+        <set name="segGrupoOpcions" table="seg_grupo_opcion" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="gru_codigo_padre" />
+            </key>
+            <one-to-many class="com.vortexbird.sentinel.modelo.SegGrupoOpcion" />
+        </set>
+        <set name="segOpcions" table="seg_opcion" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="seg_grupo_opcion_gru_codigo" not-null="true" />
+            </key>
+            <one-to-many class="com.vortexbird.sentinel.modelo.SegOpcion" />
+        </set>
+        <set name="segPermisos" table="seg_permiso" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="gru_codigo" />
+            </key>
+            <one-to-many class="com.vortexbird.sentinel.modelo.SegPermiso" />
+        </set>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="costoAcumuladoPorProyecto" pageWidth="792" pageHeight="612" orientation="Landscape" columnWidth="752" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="e11f7d82-bfcc-43be-921b-b8bb88520fde">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="VorteamDataAdapter.xml"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<parameter name="P_PROY_ID" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[null]]></defaultValueExpression>
+	</parameter>
+	<parameter name="P_SUBREPORT_DIR" class="java.lang.String">
+		<defaultValueExpression><![CDATA["/Users/johan/Documents/workspace-vorteam/vorteam-reports/"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="P_NOMBRE_PROYECTO" class="java.lang.String">
+		<defaultValueExpression><![CDATA["TODOS"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select  proy.proy_id,
+        proy.nombre_proyecto,
+        proy.costo_total costo_total_proyecto,
+        reti.fecha,
+        sum(reti.horas_ejecutadas) horas_ejecutadas,
+        sum(reti.horas_ejecutadas * prco.valor_hora) costo_ejecutado
+from    vt_reporte_tiempo reti
+inner   join vt_asignacion asig on reti.asig_id = asig.asig_id
+inner   join vt_actividad acti on acti.acti_id = asig.acti_id
+inner   join vt_tipo_actividad tiac on tiac.tiac_id = acti.tiac_id
+inner   join vt_proyecto proy on acti.proy_id = proy.proy_id
+inner   join vt_estado esta on esta.esta_id = reti.esta_id
+inner   join vt_personas pers on asig.pers_id = pers.pers_id
+inner   join vt_linea_negocio line on proy.line_id = line.line_id
+inner   join vt_proy_costo prco on pers.pers_id = prco.pers_id
+        and prco.proy_id = proy.proy_id
+where   proy.proy_id =  $P{P_PROY_ID} 
+group by proy.proy_id,
+        proy.nombre_proyecto,
+        proy.costo_total,
+        reti.fecha
+order   by reti.fecha asc]]>
+	</queryString>
+	<field name="proy_id" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="proy_id"/>
+	</field>
+	<field name="nombre_proyecto" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="nombre_proyecto"/>
+	</field>
+	<field name="costo_total_proyecto" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="costo_total_proyecto"/>
+	</field>
+	<field name="fecha" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.label" value="fecha"/>
+	</field>
+	<field name="horas_ejecutadas" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="horas_ejecutadas"/>
+	</field>
+	<field name="costo_ejecutado" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="costo_ejecutado"/>
+	</field>
+	<variable name="V_COSTO_ACUMULADO" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{costo_ejecutado}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="140" splitType="Stretch">
+			<image>
+				<reportElement x="0" y="0" width="130" height="50" uuid="fe1c1446-a7b0-4680-8746-b1122b132571"/>
+				<imageExpression><![CDATA[$P{P_SUBREPORT_DIR}+"LOGO.VB.jpg"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="130" y="0" width="310" height="15" uuid="f6aec1b1-05b1-47ae-98a5-93c6f1279541"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[VORTEXBIRD]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="130" y="15" width="310" height="15" uuid="cdb61e25-a5bf-4dd2-b7c6-e55fcbb15d26"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[COSTO ACUMULADO PROYECTO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="60" width="750" height="30" uuid="a8d69d59-b291-44c7-b093-754fa54e546e"/>
+				<text><![CDATA[El siguiente informe, muestra el valor acumulado de costos del proyecto en el tiempo. También muestra el costo total estimado (Valor de control límite)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="90" width="750" height="15" uuid="c59947bd-d384-4396-840c-8ec3bb7e2958"/>
+				<text><![CDATA[Se calculan los resultados, teniendo en cuenta los siguientes filtros:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="0" y="105" width="750" height="35" uuid="a179e318-e23c-4931-b447-38e77402e65e"/>
+				<textFieldExpression><![CDATA["Costos para el proyecto ["+
+($P{P_NOMBRE_PROYECTO} == null? "TODOS":$P{P_NOMBRE_PROYECTO}) + "]."]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="431" splitType="Stretch">
+			<lineChart>
+				<chart evaluationTime="Report">
+					<reportElement x="0" y="0" width="750" height="431" uuid="6898ae54-f35d-450b-bc45-71e659f70860"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<categorySeries>
+						<seriesExpression><![CDATA["COSTO ACUMULADO"]]></seriesExpression>
+						<categoryExpression><![CDATA[new java.text.SimpleDateFormat("dd/MMM/yyyy").format($F{fecha})]]></categoryExpression>
+						<valueExpression><![CDATA[$V{V_COSTO_ACUMULADO}]]></valueExpression>
+						<labelExpression><![CDATA[$F{costo_ejecutado}.toPlainString()]]></labelExpression>
+					</categorySeries>
+					<categorySeries>
+						<seriesExpression><![CDATA["COSTO LIMITE"]]></seriesExpression>
+						<categoryExpression><![CDATA[new java.text.SimpleDateFormat("dd/MMM/yyyy").format($F{fecha})]]></categoryExpression>
+						<valueExpression><![CDATA[$F{costo_total_proyecto}]]></valueExpression>
+						<labelExpression><![CDATA[$F{costo_total_proyecto}.toPlainString()]]></labelExpression>
+					</categorySeries>
+				</categoryDataset>
+				<linePlot>
+					<plot labelRotation="90.0"/>
+					<categoryAxisFormat labelRotation="90.0">
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+					</valueAxisFormat>
+				</linePlot>
+			</lineChart>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

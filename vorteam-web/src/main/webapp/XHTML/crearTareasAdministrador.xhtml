@@ -1,0 +1,277 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+
+	<ui:define name="content">
+		<f:view locale="#{localeBean.locale}">
+			<h:form id="formDialog">
+				<p:messages id="msg" />
+				<div class="ui-fluid">
+					<div class="card overview">
+						<p:panel header="#{msg.heCrearActividadAdministrador}">
+							<div class="ui-g">
+								<div class="ui-g-12 ui-md-4 ui-lg-4">
+									<h:panelGroup styleClass="md-inputfield">
+										<p:inputText id="txtNombreActividad"
+											binding="#{crearTareasAdministradorView.txtNombreActividad}" />
+										<label>#{msg.lblNombre}</label>
+									</h:panelGroup>
+									<p:message for="txtNombreActividad" />
+								</div>
+								<div class="ui-g-12 ui-md-4 ui-lg-4">
+									<p:selectOneMenu style="min-width:0;" id="somProyecto"
+										binding="#{crearTareasAdministradorView.somProyecto}"
+										filter="true" filterMatchMode="contains">
+										<f:selectItem itemValue="#{msg.somSeleccionarValue}"
+											itemLabel="#{msg.lblSeleccionarProyecto}" />
+										<f:selectItems
+											value="#{crearTareasAdministradorView.siProyecto}" />
+									</p:selectOneMenu>
+									<p:message for="somProyecto" />
+								</div>
+								<div class="ui-g-12 ui-md-4 ui-lg-4">
+									<p:selectOneMenu style="min-width:0;" id="somTipoActividad"
+										binding="#{crearTareasAdministradorView.somTipoActividad}"
+										filter="true" filterMatchMode="contains">
+										<f:selectItem itemValue="#{msg.somSeleccionarValue}"
+											itemLabel="#{msg.lblSeleccionarTipoActividad}" />
+										<f:selectItems
+											value="#{crearTareasAdministradorView.siTipoActividad}" />
+									</p:selectOneMenu>
+									<p:message for="somTipoActividad" />
+								</div>
+							</div>
+							<div class="ui-g">
+
+
+								<div class="ui-g-12 ui-md-2 ui-lg-2">
+									<p:commandButton value="#{msg.lblAsignarUsuarios}"
+										action="#{crearTareasAdministradorView.asignarUsuarios}"
+										update=":dialogAsignaciones" />
+								</div>
+								<div class="ui-g-12 ui-md-10 ui-lg-10">
+									<h:panelGroup styleClass="md-inputfield">
+										<p:inputTextarea id="txtPersonasSeleccionadas" readonly="true"
+											binding="#{crearTareasAdministradorView.txtPersonasSeleccionadas}" />
+										<label>#{msg.lblUsuariosSeleccionados}</label>
+									</h:panelGroup>
+									<p:message for="txtPersonasSeleccionadas" />
+								</div>
+
+							</div>
+							<div class="ui-g">
+								<div class="ui-g-12 ui-md-12 ui-lg-12">
+									<h:panelGroup styleClass="md-inputfield">
+										<p:inputTextarea id="txtDescripcionActividad"
+											binding="#{crearTareasAdministradorView.txtDescripcionActividad}" />
+										<label>#{msg.lblDescripcion}</label>
+									</h:panelGroup>
+									<p:message for="txtDescripcionActividad" />
+								</div>
+							</div>
+
+							<div class="ui-g">
+								<div class="ui-g-12 ui-md-4 ui-lg-4">
+									<h:panelGroup styleClass="md-inputfield">
+										<p:inputText id="txtSprint"
+											binding="#{crearTareasAdministradorView.txtSprint}" />
+										<label>#{msg.lblSprint}</label>
+									</h:panelGroup>
+									<p:message for="txtSprint" />
+								</div>
+								<div class="ui-g-12 ui-md-4 ui-lg-4">
+									<h:panelGroup styleClass="md-inputfield">
+										<p:inputText id="txtCasoSoporte"
+											binding="#{crearTareasAdministradorView.txtCasoSoporte}" />
+										<label>#{msg.lblCasoSoporte}</label>
+									</h:panelGroup>
+									<p:message for="txtCasoSoporte" />
+								</div>
+								<div class="ui-g-12 ui-md-4 ui-lg-4">
+									<h:panelGroup styleClass="md-inputfield">
+										<p:inputText id="txtControlCambios"
+											binding="#{crearTareasAdministradorView.txtControlCambios}" />
+										<label>#{msg.lblControlCambios}</label>
+									</h:panelGroup>
+									<p:message for="txtControlCambios" />
+								</div>
+							</div>
+							
+							<div class="ui-g">
+								<div class="ui-g-12 ui-md-3 ui-lg-3">
+									<h:panelGroup styleClass="md-inputfield">
+										<p:calendar id="calFechaLimite" pattern="#{msg.lblAnhoMesDia}"
+											binding="#{crearTareasAdministradorView.calFechaLimite}" />
+										<label>#{msg.lblFechaLimite}</label>
+									</h:panelGroup>
+									<p:message for="calFechaLimite" />
+								</div>
+								<div class="ui-g-12 ui-md-3 ui-lg-3">
+									<h:panelGroup styleClass="md-inputfield">
+										<p:inputNumber id="txtHorasPresupuestadas"
+											binding="#{crearTareasAdministradorView.txtHorasPresupuestadas}" />
+										<label>#{msg.lblHorasPresupuestadas}</label>
+									</h:panelGroup>
+									<p:message for="txtHorasPresupuestadas" />
+								</div>
+							</div>
+
+							<div class="ui-g">
+								<div class="ui-g-12 ui-md-6 ui-lg-6">
+									<h:panelGrid columns="2" id="sorFacturable">
+										<p:outputLabel value="#{msg.lblFacturable}" />
+										<p:selectOneRadio value="#{crearTareasAdministradorView.esFacturable}">
+											<f:selectItem itemValue="#{msg.sorSi}"
+												itemLabel="#{msg.lblSi}" />
+											<f:selectItem itemValue="#{msg.sorNo}"
+												itemLabel="#{msg.lblNo}" />
+										</p:selectOneRadio>
+									</h:panelGrid>
+									<p:message for="sorFacturable" />
+								</div>
+								<div class="ui-g-12 ui-md-6 ui-lg-6">
+									<h:panelGroup styleClass="md-inputfield">
+										<p:inputNumber id="txtValorFacturable"
+											binding="#{crearTareasAdministradorView.txtValorFacturable}" />
+										<label>#{msg.lblValorFacturable}</label>
+									</h:panelGroup>
+									<p:message for="txtValorFacturable" />
+								</div>
+							</div>
+						</p:panel>
+
+						<p:panel>
+							<div class="ui-g" align="center">
+								<div class="ui-g-12 ui-md-4 ui-lg-4">
+									<p:commandButton id="btnSave" value="#{msg.lblGuardar}"
+										action="#{crearTareasAdministradorView.guardarActividad}"
+										update=":formDialog" />
+								</div>
+								<div class="ui-g-12 ui-md-4 ui-lg-4">
+									<p:commandButton id="btnClear" value="#{msg.lblLimpiar}"
+										action="#{crearTareasAdministradorView.limpiarFormlarioActividad}"
+										update=":formDialog" />
+								</div>
+							</div>
+
+						</p:panel>
+					</div>
+				</div>
+
+				<div class="ui-fluid">
+					<div class="card overview">
+						<p:panel header="#{msg.heActividades}">
+							<p:dataTable
+								value="#{crearTareasAdministradorView.actividadesOrdenadasDescendientes}"
+								var="actividad" reflow="true" scrollable="true"
+								scrollWidth="100%" paginator="true" filterDelay="1000"
+								emptyMessage="#{msgs.msgTablaVacia}"
+								paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+								rowsPerPageTemplate="10,20,30" rows="10">
+								<p:column headerText="#{msg.lblNombre}"
+									style="text-align: center">
+									<h:outputText value="#{actividad.nombre}" />
+								</p:column>
+								<p:column headerText="#{msg.lblDescripcion}"
+									style="text-align: center">
+									<h:outputText value="#{actividad.descripcion}" />
+								</p:column>
+								<p:column headerText="#{msg.lblNombreProyecto}"
+									style="text-align: center">
+									<h:outputText value="#{actividad.nombreProyecto}" />
+								</p:column>
+								<p:column headerText="#{msg.lblUsuarios}"
+									style="text-align: center">
+									<h:outputText value="#{actividad.asignaciones}" />
+								</p:column>
+								<p:column headerText="#{msg.lblFechaLimite}"
+									style="text-align: center">
+									<h:outputText value="#{actividad.fechaLimite}">
+										<f:convertDateTime pattern="yyyy-MMM-dd" locale="es" />
+									</h:outputText>
+								</p:column>
+								<p:column headerText="#{msg.lblHorasPresupuestadas}"
+									style="text-align: center">
+									<h:outputText value="#{actividad.horasPresupuestadas}" />
+								</p:column>
+								<p:column headerText="#{msg.lblSprint}"
+									style="text-align: center">
+									<h:outputText value="#{actividad.sprint}" />
+								</p:column>
+								<p:column headerText="#{msg.lblCasoSoporte}"
+									style="text-align: center">
+									<h:outputText value="#{actividad.casoSoporte}" />
+								</p:column>
+								<p:column headerText="#{msg.lblControlCambios}"
+									style="text-align: center">
+									<h:outputText value="#{actividad.controlCambios}" />
+								</p:column>
+								<p:column headerText="#{msg.lblOpciones}"
+									style="text-align: center">
+									<p:commandButton icon="#{icon.iconUpdate}"
+										value="#{msg.lblModificar}"
+										actionListener="#{crearTareasAdministradorView.modificarActividad}"
+										update=":formDialog">
+										<f:attribute name="actiId" value="#{actividad.actiId}" />
+									</p:commandButton>
+								</p:column>
+							</p:dataTable>
+						</p:panel>
+					</div>
+				</div>
+
+
+			</h:form>
+
+			<p:dialog id="dialogAsignaciones" draggable="true" closable="false"
+				responsive="true"
+				visible="#{crearTareasAdministradorView.esVisibleDlgAsignacion}"
+				resizable="false" modal="true" width="60%" height="65%">
+				<h:form id="frmAsignacion">
+					<div class="ui-fluid">
+						<div class="card overview">
+							<p:panel header="#{msg.heUsuarios}">
+								<p:dataTable value="#{crearTareasAdministradorView.personas}"
+									var="persona" reflow="true"
+									selection="#{crearTareasAdministradorView.personasSeleccionadas}"
+									rowKey="#{persona.persId}" scrollable="true" scrollWidth="100%"
+									paginator="true" filterDelay="1000"
+									emptyMessage="#{msgs.msgTablaVacia}"
+									paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+									rowsPerPageTemplate="10,20,30" rows="20">
+									<p:column selectionMode="multiple"
+										style="width:16px;text-align:center" />
+									<p:column headerText="#{msg.lblNombre}"
+										style="text-align: center">
+										<h:outputText value="#{persona.nombreCompleto}" />
+									</p:column>
+									<p:column headerText="#{msg.lblEmail}"
+										style="text-align: center">
+										<h:outputText value="#{persona.email}" />
+									</p:column>
+								</p:dataTable>
+							</p:panel>
+
+							<div class="ui-g">
+								<div class="ui-g-12 ui-md-6 ui-lg-6">
+									<p:commandButton value="#{msg.lblGuardar}"
+										action="#{crearTareasAdministradorView.seleccionarUsuarios}"
+										update=":dialogAsignaciones, :formDialog" />
+								</div>
+								<div class="ui-g-12 ui-md-6 ui-lg-6">
+									<p:commandButton value="#{msg.lblSalir}"
+										action="#{crearTareasAdministradorView.cerrarDialogoAsignarPersonas}"
+										update=":dialogAsignaciones" />
+								</div>
+							</div>
+
+						</div>
+					</div>
+
+				</h:form>
+			</p:dialog>
+		</f:view>
+	</ui:define>
+</ui:composition>

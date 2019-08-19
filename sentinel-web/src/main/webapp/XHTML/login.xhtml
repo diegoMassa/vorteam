@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>Sentinel</title>
+	<link rel="icon" type="image/png" href="images/GLU-ERP-favico.png"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+        
+    <h:outputScript name="js/login.js" library="sentinel-layout" />
+    <h:outputStylesheet name="css/font-icon-layout.css" library="sentinel-layout" />
+    <h:outputStylesheet name="css/sentinel-layout.css" library="sentinel-layout" />
+    <h:outputStylesheet name="css/core-layout.css" library="sentinel-layout" />
+    
+     <style type="text/css">
+    	#login-logo {
+    		margin: 0px;
+    	}
+    	
+    	#login-logo img{
+    		    height: 130px;
+    	}
+    </style>
+    
+</h:head>
+
+
+
+<h:body class="fontRegular login-back white-back">
+	<p:ajaxStatus onstart="PF('statusDialog').show()"
+		onsuccess="PF('statusDialog').hide()" />
+	<p:dialog modal="true" widgetVar="statusDialog" header="Cargando"
+		draggable="false" closable="false" resizable="false">
+		<p:graphicImage
+			value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />
+	</p:dialog>
+
+
+	<div class="Container80 MaxWid500 Fnone MarAuto TexAlCenter PaddingTopPercent10">
+            <a href="" id="login-logo">
+                <h:graphicImage name="images/Logo-login.png" styleClass="Fleft" library="sentinel-layout"/>
+            </a>
+            <div class="EmptyBox10"></div>
+        </div>
+
+	<h:form>
+		<p:growl id="msgLogin" autoUpdate="true" showDetail="false"/>
+		<div class="Container">
+
+			<!-- LOGIN BOX COVER START -->
+			<div class="Container80 MaxWid500 white-back Fnone MarAuto BordRad10"
+				id="login-box">
+				<div class="Container">
+					<div
+						class="Container50 TexAlCenter Animated05 BoxSizeBorder TabBtn left TabBtnActiveLeft"
+						role="1">
+						<div class="Container80 Fnone MarAuto FontBold">
+							<i class="icon-lock"></i> Ingresar
+						</div>
+					</div>
+					<div
+						class="Container50 TexAlCenter Animated05 BoxSizeBorder TabBtn right"
+						role="2">
+						<div class="Container80 Fnone MarAuto FontBold">
+							<i class="icon-key-1"></i> Olvidó su clave?
+						</div>
+					</div>
+
+					<div class="Container90 Fnone MarAuto TexAlCenter TabContent"
+						id="TAB1">
+						<div class="EmptyBox30"></div>
+						<p:inputText id="usernameField" name="j_username"
+							value="#{loginView.userId}" placeholder="Usuario"
+							styleClass="Container80 Fnone MarAuto Fs18" />
+						<div class="EmptyBox10"></div>
+						<p:password id="passwordField" name="j_password"
+							value="#{loginView.password}" placeholder="Clave"
+							styleClass="Container80 Fnone MarAuto Fs18" feedback="false" />
+						<div class="EmptyBox10"></div>
+						<p:inputText id="domainField" name="j_domain"
+							value="#{loginView.dominio}" placeholder="Dominio"
+							styleClass="Container80 Fnone MarAuto Fs18" />
+						<div class="EmptyBox10"></div>
+						
+						<div class="EmptyBox30"></div>
+						<p:commandButton value="Iniciar Sesión" styleClass="Fs16"
+							action="#{loginView.login}" update="@([id$=msgLogin])" />
+						<div class="EmptyBox50"></div>
+					</div>
+
+					<div
+						class="Container90 Fnone MarAuto DispNone TexAlCenter TabContent"
+						id="TAB2">
+						<div class="EmptyBox50"></div>
+						<p:inputText id="idCorreoRecuperacion"
+							placeholder="Login"
+							styleClass="Container80 Fnone MarAuto Fs18"
+							value="#{registrarView.correoRecuperacion}" />
+						<div class="EmptyBox10"></div>
+						<p:inputText id="idDominio"
+							placeholder="Dominio"
+							styleClass="Container80 Fnone MarAuto Fs18"
+							value="#{registrarView.dominioRecuperacion}" />	
+						<div class="EmptyBox20"></div>
+						<p:commandButton value="Enviar solicitud" styleClass="Fs16"
+							action="#{registrarView.recuperarClave}"
+							update="@([id$=msgLogin]),@([id$=idCorreoRecuperacion])"></p:commandButton>
+						<div class="EmptyBox50"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- LOGIN BOX COVER END -->
+	</h:form>
+</h:body>
+
+</html>

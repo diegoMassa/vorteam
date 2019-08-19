@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.0"
+	xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
+	<persistence-unit name="vorteam-configPU-test"
+		transaction-type="RESOURCE_LOCAL">
+
+
+		<mapping-file>META-INF/orm.xml</mapping-file>
+
+		<class>com.vortexbird.vorteam.domain.VtActividad</class>
+		<class>com.vortexbird.vorteam.domain.VtAsignacion</class>
+		<class>com.vortexbird.vorteam.domain.VtCliente</class>
+		<class>com.vortexbird.vorteam.domain.VtEstado</class>
+		<class>com.vortexbird.vorteam.domain.VtLineaNegocio</class>
+		<class>com.vortexbird.vorteam.domain.VtPersonas</class>
+		<class>com.vortexbird.vorteam.domain.VtProyCosto</class>
+		<class>com.vortexbird.vorteam.domain.VtProyecto</class>
+		<class>com.vortexbird.vorteam.domain.VtReporteTiempo</class>
+		<class>com.vortexbird.vorteam.domain.VtTipoActividad</class>
+		<class>com.vortexbird.vorteam.domain.VtTipoIdentificacion</class>
+		<class>com.vortexbird.vorteam.domain.ZcodeEntityAuditEvent</class>
+		<class>com.vortexbird.vorteam.domain.VtParametro</class>
+		<class>com.vortexbird.vorteam.domain.VtFestivos</class>
+		<class>com.vortexbird.vorteam.domain.VtClasificacionFinanciera</class>
+		
+		<properties>
+			<property name="hibernate.connection.driver_class" value="org.postgresql.Driver" />
+			<property name="hibernate.connection.url" value="jdbc:postgresql://127.0.0.1:5432/vorteam-jenkins" />
+			<property name="hibernate.connection.username" value="postgres" />
+			<property name="hibernate.connection.password" value="Pr0dVorT3xKtK1" />
+		</properties>
+
+	</persistence-unit>
+</persistence>

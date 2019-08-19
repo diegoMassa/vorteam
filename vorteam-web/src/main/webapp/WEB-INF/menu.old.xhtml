@@ -1,0 +1,56 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pu="http://primefaces.org/ultima">
+
+	<f:loadBundle basename="i18n.components" var="msg" />
+	<f:loadBundle basename="i18n.icons" var="icon" />
+	<f:loadBundle basename="i18n.messages" var="msgs" />
+
+
+	<h:form id="menuform">
+		<div class="layout-menu #{guestPreferences.menuClass}">
+			<div class="nano">
+				<div class="nano-content menu-scroll-content">
+					<ui:fragment
+						rendered="#{guestPreferences.profileMode == 'inline' and guestPreferences.menuLayout != 'menu-layout-static menu-layout-horizontal'}">
+						<div class="profile">
+							<div class="profile-image"></div>
+							<a id="profile-options" href="#"> <span class="profile-name">VortexBird</span> <i class="material-icons">&#xE313;</i>
+							</a>
+						</div>
+
+						<ul id="profile-menu" class="ultima-menu">
+							<li role="menuitem"><a href="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/j_spring_security_logout" class="ripplelink"> <i
+									class="material-icons">&#xE8AC;</i> <span>Logout</span>
+							</a></li>
+						</ul>
+					</ui:fragment>
+
+					<pu:menu widgetVar="me">
+						<p:menuitem id="um_dashboard" value="Dashboard" icon="&#xE871;"
+							outcome="/dashboard" />
+						<p:submenu label="#{msg.lblGestion}" icon="#{icon.iconDocument}">
+							<p:menuitem value="#{msg.lblGestionClientes}"
+								url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/gestionClientes.xhtml" />	
+							<p:menuitem value="#{msg.lblGestionProyectos}"
+								url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/gestionProyectos.xhtml" />	
+							<p:menuitem value="#{msg.lblActividades}"
+								url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/crearTareasAdministrador.xhtml" />	
+							<p:menuitem value="#{msg.lblUsuarios}"
+								url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/gestionPersonas.xhtml" />	
+							<p:menuitem value="#{msg.heMisActividades}"
+								url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/misActividades.xhtml" />
+							<p:menuitem value="#{msg.heReportarActividades}"
+								url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/crearTareasUsuario.xhtml" />	
+								
+						</p:submenu>
+
+					</pu:menu>
+				</div>
+			</div>
+		</div>
+	</h:form>
+</ui:composition>

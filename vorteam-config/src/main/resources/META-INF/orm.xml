@@ -1,0 +1,425 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings xmlns="http://java.sun.com/xml/ns/persistence/orm"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm http://java.sun.com/xml/ns/persistence/orm_2_0.xsd"
+	version="2.0">
+	<!-- Consultas que se van a hacer en VtProyecto -->
+	<entity class="com.vortexbird.vorteam.domain.VtProyecto">
+		<named-native-query name="consultaProyectosClientes"
+			result-set-mapping="consultaProyectosClientes">
+			<query>
+            <![CDATA[
+				select 
+				tiid.descripcion as tipoIdentificacionCliente,
+				clie.identificacion as identificacionCliente, 
+				clie.nombre_razon_social as nombreCliente, 
+				proy.nombre_proyecto as nombreProyecto,
+				clie.clie_id as clieId,
+				proy.proy_id as proyId,
+				line.descripcion as lineaNegocio,
+				proy.activo as activo,
+				case when proy.activo = 'F' then 'FINALIZADO'
+				else 'ACTIVO' end as activoDescripcion
+				from vt_cliente clie
+				left outer join vt_proyecto proy on proy.clie_id = clie.clie_id
+				left outer join vt_linea_negocio line on line.line_id = proy.line_id
+				inner join vt_tipo_identificacion tiid on tiid.tiid_id = clie.tiid_id
+				where clie.activo = :pActivo and
+				tiid.activo = :pActivo
+				order by clie.nombre_razon_social, proy.nombre_proyecto
+            ]]>
+            </query>
+		</named-native-query>
+		<named-native-query name="consultaProyectosClientesRecursos"
+			result-set-mapping="consultaProyectosClientesRecursos">
+			<query>
+            <![CDATA[
+				select 
+				proy.proy_id as proyId,
+				proy.nombre_proyecto as nombreProyecto,
+				clie.nombre_razon_social as nombreCliente,
+				line.descripcion as lineaNegocio,
+				(select string_agg(pers.email,', ' order by pers.email)
+				from vt_proy_costo prco
+				inner join vt_personas pers on pers.pers_id = prco.pers_id
+				and prco.activo = :pActivo
+				and pers.activo = :pActivo
+				and prco.proy_id = proy.proy_id) as recursosHumanos,
+				proy.activo as activo,
+				case when proy.activo = 'F' then 'FINALIZADO'
+				else 'ACTIVO' end as activoDescripcion,
+				proy.costo_total as costoTotal
+				from vt_proyecto proy
+				inner join vt_cliente clie on clie.clie_id = proy.clie_id
+				inner join vt_linea_negocio line on line.line_id = proy.line_id
+				order by proy.nombre_proyecto, clie.nombre_razon_social
+            ]]>
+            </query>
+		</named-native-query>
+		<named-native-query name="consultaProyectos"
+			result-set-mapping="consultaProyectos">
+			<query>
+            <![CDATA[
+				select 
+					clie.nombre_razon_social as nombreCliente, 
+					proy.nombre_proyecto as nombreProyecto,
+					clie.clie_id as clieId,
+					proy.proy_id as proyId,
+					line.descripcion as lineaNegocio
+				from vt_proyecto proy
+				inner join vt_cliente clie on clie.clie_id = proy.clie_id
+				inner join vt_linea_negocio line on line.line_id = proy.line_id
+				where proy.activo = :pActivo
+					and clie.activo = :pActivo
+					and line.activo = :pActivo
+            ]]>
+            </query>
+		</named-native-query>
+		<named-native-query name="consultaProyectosActivosPersona"
+			result-set-mapping="consultaProyectosActivosPersona">
+			<query>
+            <![CDATA[
+				select 
+					clie.nombre_razon_social as nombreCliente, 
+					proy.nombre_proyecto as nombreProyecto,
+					clie.clie_id as clieId,
+					proy.proy_id as proyId,
+					line.descripcion as lineaNegocio
+				from vt_proyecto proy
+				inner join vt_cliente clie on clie.clie_id = proy.clie_id
+				inner join vt_linea_negocio line on line.line_id = proy.line_id
+				inner join vt_proy_costo prco on prco.proy_id = proy.proy_id
+				inner join vt_personas pers on pers.pers_id = prco.pers_id
+				where proy.activo = :pActivo
+					and clie.activo = :pActivo
+					and line.activo = :pActivo
+					and pers.pers_id = :pPersId
+            ]]>
+            </query>
+		</named-native-query>
+		<named-native-query name="consultaProyectosTodosPersona"
+			result-set-mapping="consultaProyectosTodosPersona">
+			<query>
+            <![CDATA[
+				select 
+					clie.nombre_razon_social as nombreCliente, 
+					proy.nombre_proyecto as nombreProyecto,
+					clie.clie_id as clieId,
+					proy.proy_id as proyId,
+					line.descripcion as lineaNegocio
+				from vt_proyecto proy
+				inner join vt_cliente clie on clie.clie_id = proy.clie_id
+				inner join vt_linea_negocio line on line.line_id = proy.line_id
+				inner join vt_proy_costo prco on prco.proy_id = proy.proy_id
+				inner join vt_personas pers on pers.pers_id = prco.pers_id
+				where clie.activo = :pActivo
+					and line.activo = :pActivo
+					and pers.pers_id = :pPersId
+            ]]>
+            </query>
+		</named-native-query>
+	</entity>
+	<!-- Consultas que se van a hacer en VtPersonas -->
+	<entity class="com.vortexbird.vorteam.domain.VtPersonas">
+		<named-native-query name="consultaPersonasProyectos"
+			result-set-mapping="consultaPersonasProyectos">
+			<query>
+            <![CDATA[
+				select pers.pers_id as persId,
+				pers.nombre||' '||pers.apellidos as nombreCompleto,
+				pers.email as email,
+				(select string_agg(proy.nombre_proyecto,', ' order by proy.nombre_proyecto)
+				from vt_proy_costo prco
+				inner join vt_proyecto proy on proy.proy_id = prco.proy_id
+				and prco.activo = :pActivo
+				and prco.pers_id = pers.pers_id) as proyectos
+				from vt_personas pers
+				where pers.activo = :pActivo
+				order by pers.nombre||' '||pers.apellidos
+            ]]>
+            </query>
+		</named-native-query>
+		<named-native-query name="consultaPersonasProyecto"
+			result-set-mapping="consultaPersonasProyecto">
+			<query>
+            <![CDATA[
+				select pers.pers_id as persId,
+				pers.nombre||' '||pers.apellidos as nombreCompleto,
+				pers.email as email,
+				prco.valor_hora as valorHora
+				from vt_personas pers
+				inner join vt_proy_costo prco on prco.pers_id = pers.pers_id
+				inner join vt_proyecto proy on proy.proy_id = prco.proy_id
+				where pers.activo = :pActivo
+				and proy.proy_id = :pProyId
+				order by pers.nombre||' '||pers.apellidos
+            ]]>
+            </query>
+		</named-native-query>
+		<named-native-query name="consultaPersonas"
+			result-set-mapping="consultaPersonas">
+			<query>
+            <![CDATA[
+				select pers.pers_id as persId,
+				pers.nombre||' '||pers.apellidos as nombreCompleto,
+				pers.email as email
+				from vt_personas pers
+				where pers.activo = :pActivo
+				order by pers.nombre||' '||pers.apellidos
+            ]]>
+            </query>
+		</named-native-query>
+		<named-native-query name="consultaPersonasActividad"
+			result-set-mapping="consultaPersonasActividad">
+			<query>
+            <![CDATA[
+				select 
+					pers.pers_id as persId,
+					pers.nombre||' '||pers.apellidos as nombreCompleto,
+					pers.email as email
+				from vt_actividad acti
+				inner join vt_asignacion asig on asig.acti_id = acti.acti_id
+				inner join vt_personas pers on pers.pers_id = asig.pers_id
+				where acti.acti_id = :pActiId
+					and acti.activo = :pActivo
+					and asig.activo = :pActivo
+					and pers.activo = :pActivo
+				order by pers.nombre||' '||pers.apellidos
+            ]]>
+            </query>
+		</named-native-query>
+	</entity>
+	<!-- Consultas que se van a hacer en VtActividad -->
+	<entity class="com.vortexbird.vorteam.domain.VtActividad">
+		<named-native-query name="consultaActividadesOrdenadaFechaDescendiente"
+			result-set-mapping="consultaActividadesOrdenadaFechaDescendiente">
+			<query>
+            <![CDATA[
+				select 
+				acti.acti_id as actiId,
+				proy.nombre_proyecto as nombreProyecto,
+				acti.nombre as nombre,
+				acti.descripcion as descripcion,
+				(select string_agg(pers.nombre||' '||pers.apellidos,', ' order by pers.nombre||' '||pers.apellidos)
+				from vt_asignacion asig
+				inner join vt_personas pers on pers.pers_id = asig.pers_id
+				where asig.activo = :pActivo
+				and pers.activo = :pActivo
+				and asig.acti_id = acti.acti_id) as asignaciones,
+				acti.fecha_limite as fechaLimite,
+				acti.horas_presupuestadas as horasPresupuestadas,
+				acti.sprint as sprint,
+				acti.caso_soporte as casoSoporte,
+				case when acti.facturable = 'S' then 'Si'
+				else 'No' end as facturable,
+				acti.valor_facturable as valorFacturable,
+				acti.usua_creador as usuaCreador,
+				acti.usua_modificador as usuaModificador,
+				acti.fecha_modificacion as fechaModificacion,
+				acti.fecha_creacion as fechaCreacion,
+				acti.control_cambios as controlCambios 
+				from vt_actividad acti
+				inner join vt_proyecto proy on proy.proy_id = acti.proy_id
+				where acti.activo = :pActivo
+				order by acti_id desc
+            ]]>
+            </query>
+		</named-native-query>
+		<named-native-query name="consultaMisActividades"
+			result-set-mapping="consultaMisActividades">
+			<query>
+            <![CDATA[
+				select 
+					acti.acti_id as actiId,
+					proy.nombre_proyecto as nombreProyecto,
+					clie.nombre_razon_social as nombreCliente,
+					acti.nombre as nombre,
+					acti.descripcion as descripcion,
+					esta.descripcion as estado,
+					tiac.descripcion as tipoActividad,
+					acti.fecha_limite as fechaLimite,
+					acti.horas_presupuestadas as horasPresupuestadas,
+					(select sum(reti.horas_ejecutadas)
+					from vt_reporte_tiempo reti
+					where reti.asig_id = asig.asig_id
+					and reti.activo = :pActivo) as horasEjecutadas,
+					(select max(reti.fecha)
+					from vt_reporte_tiempo reti
+					where reti.asig_id = asig.asig_id
+					and reti.activo = :pActivo) as ultimaFechaRegistro,
+					acti.sprint as sprint,
+					acti.caso_soporte as casoSoporte,
+					acti.control_cambios as controlCamios,
+					asig.asig_id as asigId,
+					acti.porcentaje_avance as porcentajeAvance
+				from vt_asignacion asig
+				inner join vt_personas pers on pers.pers_id = asig.pers_id
+				inner join vt_actividad acti on acti.acti_id = asig.acti_id
+				inner join vt_proyecto proy on proy.proy_id = acti.proy_id
+				inner join vt_cliente clie on clie.clie_id = proy.clie_id
+				inner join vt_tipo_actividad tiac on tiac.tiac_id = acti.tiac_id
+				inner join vt_estado esta on esta.esta_id = acti.esta_id
+				where pers.pers_id = :pPersId
+				and asig.activo = :pActivo
+				and pers.activo = :pActivo
+				and acti.activo = :pActivo
+				and clie.activo = :pActivo
+				and tiac.activo = :pActivo
+				and esta.activo = :pActivo	
+				order by ultimaFecharegistro desc	
+            ]]>
+            </query>
+		</named-native-query>
+		<named-native-query name="consultaMisActividadesLazy"
+			result-set-mapping="consultaMisActividadesLazy">
+			<query>
+            <![CDATA[
+				select 
+					acti.acti_id as actiId,
+					proy.nombre_proyecto as nombreProyecto,
+					clie.nombre_razon_social as nombreCliente,
+					acti.nombre as nombre,
+					acti.descripcion as descripcion,
+					esta.descripcion as estado,
+					tiac.descripcion as tipoActividad,
+					acti.fecha_limite as fechaLimite,
+					acti.horas_presupuestadas as horasPresupuestadas,
+					(select sum(reti.horas_ejecutadas)
+					from vt_reporte_tiempo reti
+					where reti.asig_id = asig.asig_id
+					and reti.activo = :pActivo) as horasEjecutadas,
+					(select max(reti.fecha)
+					from vt_reporte_tiempo reti
+					where reti.asig_id = asig.asig_id
+					and reti.activo = :pActivo) as ultimaFechaRegistro,
+					acti.sprint as sprint,
+					acti.caso_soporte as casoSoporte,
+					acti.control_cambios as controlCamios,
+					asig.asig_id as asigId,
+					acti.porcentaje_avance as porcentajeAvance
+				from vt_asignacion asig
+				inner join vt_personas pers on pers.pers_id = asig.pers_id
+				inner join vt_actividad acti on acti.acti_id = asig.acti_id
+				inner join vt_proyecto proy on proy.proy_id = acti.proy_id
+				inner join vt_cliente clie on clie.clie_id = proy.clie_id
+				inner join vt_tipo_actividad tiac on tiac.tiac_id = acti.tiac_id
+				inner join vt_estado esta on esta.esta_id = acti.esta_id
+				where pers.pers_id = :pPersId
+				and asig.activo = :pActivo
+				and pers.activo = :pActivo
+				and acti.activo = :pActivo
+				and clie.activo = :pActivo
+				and tiac.activo = :pActivo
+				and esta.activo = :pActivo
+				and ((:pProyId <> '-1' AND proy.proy_id = :pProyId) OR (:pProyId = '-1')) 										
+				and ((:pEstaId <> '-1' AND esta.esta_id = :pEstaId) OR (:pEstaId = '-1')) 										
+				and ((:pTiacId <> '-1' AND tiac.tiac_id = :pTiacId) OR (:pTiacId = '-1'))
+				and ((:pSprint <> '-1' AND acti.sprint LIKE '%' || :pSprint ||'%') OR (:pSprint = '-1')) 					
+				and ((:pCasoSoporte <> '-1' AND acti.caso_soporte LIKE '%' || :pCasoSoporte ||'%') OR (:pCasoSoporte = '-1')) 					
+				and ((:pControlCambios <> '-1' AND acti.control_cambios LIKE '%' || :pControlCambios ||'%') OR (:pControlCambios = '-1')) 					
+				order by ultimaFecharegistro desc
+            ]]>
+            </query>
+		</named-native-query>
+		<named-native-query name="consultaTotalMisActividadesLazy"
+			result-set-mapping="consultaTotalMisActividadesLazy">
+			<query>
+            <![CDATA[
+				select 
+					count(*) as total
+				from vt_asignacion asig
+				inner join vt_personas pers on pers.pers_id = asig.pers_id
+				inner join vt_actividad acti on acti.acti_id = asig.acti_id
+				inner join vt_proyecto proy on proy.proy_id = acti.proy_id
+				inner join vt_cliente clie on clie.clie_id = proy.clie_id
+				inner join vt_tipo_actividad tiac on tiac.tiac_id = acti.tiac_id
+				inner join vt_estado esta on esta.esta_id = acti.esta_id
+				where pers.pers_id = :pPersId
+				and asig.activo = :pActivo
+				and pers.activo = :pActivo
+				and acti.activo = :pActivo
+				and clie.activo = :pActivo
+				and tiac.activo = :pActivo
+				and esta.activo = :pActivo
+				and ((:pProyId <> '-1' AND proy.proy_id = :pProyId) OR (:pProyId = '-1')) 										
+				and ((:pEstaId <> '-1' AND esta.esta_id = :pEstaId) OR (:pEstaId = '-1')) 										
+				and ((:pTiacId <> '-1' AND tiac.tiac_id = :pTiacId) OR (:pTiacId = '-1'))
+				and ((:pSprint <> '-1' AND acti.sprint LIKE '%' || :pSprint ||'%') OR (:pSprint = '-1')) 					
+				and ((:pCasoSoporte <> '-1' AND acti.caso_soporte LIKE '%' || :pCasoSoporte ||'%') OR (:pCasoSoporte = '-1')) 					
+				and ((:pControlCambios <> '-1' AND acti.control_cambios LIKE '%' || :pControlCambios ||'%') OR (:pControlCambios = '-1'))
+            ]]>
+            </query>
+		</named-native-query>
+	</entity>
+
+	<!-- Consultas que se van a hacer en la entidad VtReporteTiempo -->
+	<entity class="com.vortexbird.vorteam.domain.VtReporteTiempo">
+		<named-native-query name="reporteTiemposEntreFechas"
+			result-set-mapping="reporteTiemposEntreFechas">
+			<query>
+            <![CDATA[
+				select 
+					'Semana ' || EXTRACT(WEEK FROM reti.fecha) as semana,
+	        			pers.nombre || ' ' ||pers.apellidos as nombreCompleto,
+	        			sum(reti.horas_ejecutadas) as horas
+				from    vt_reporte_tiempo reti
+					inner   join vt_asignacion asig on reti.asig_id = asig.asig_id
+					inner   join vt_actividad acti on acti.acti_id = asig.acti_id
+					inner   join vt_tipo_actividad tiac on tiac.tiac_id = acti.tiac_id
+					inner   join vt_proyecto proy on acti.proy_id = proy.proy_id
+					inner   join vt_estado esta on esta.esta_id = reti.esta_id
+					inner   join vt_personas pers on asig.pers_id = pers.pers_id
+				where   
+					reti.activo = :pActivo and
+					asig.activo = :pActivo and
+					acti.activo = :pActivo and
+					tiac.activo = :pActivo and
+					esta.activo = :pActivo and
+					pers.activo = :pActivo and
+					reti.fecha between to_date(:pFechaInicial,:pPattern) and to_date(:pFechaFinal,:pPattern)
+				group by semana, nombreCompleto
+				order by semana, nombreCompleto
+            ]]>
+            </query>
+		</named-native-query>
+		<named-native-query name="horasEjecutadasDia"
+			result-set-mapping="horasEjecutadasDia">
+			<query>
+            <![CDATA[
+				select sum(reti.horas_ejecutadas) as horas  
+				from vt_reporte_tiempo reti
+					inner join vt_asignacion asig on asig.asig_id = reti.asig_id
+					inner join vt_personas pers on asig.pers_id = pers.pers_id
+				where reti.fecha = to_date(:pFecha,:pPattern)
+					and pers.email = :pEmail
+					and reti.activo = :pActivo
+					and asig.activo = :pActivo
+					and pers.activo = :pActivo
+            ]]>
+            </query>
+		</named-native-query>
+	</entity>
+	<!-- Consultas que se van a hacer en la entidad VtFestivos -->
+	<entity class="com.vortexbird.vorteam.domain.VtFestivos">
+		<named-native-query name="esFestivo"
+			result-set-mapping="esFestivo">
+			<query>
+            <![CDATA[
+				select 
+					fest_id as festId, 
+					fecha as fecha, 
+					activo as activo, 
+					usua_creador as usuaCreador, 
+					fecha_creacion as fechaCreacion, 
+					usua_modificador as usuaModificador, 
+					fecha_modificacion as fechaModificacion 
+				from vt_festivos 
+				where 
+					fecha = to_date(:pFecha,:pPattern)
+					and activo = :pActivo
+            ]]>
+            </query>
+		</named-native-query>
+	</entity>
+
+</entity-mappings>

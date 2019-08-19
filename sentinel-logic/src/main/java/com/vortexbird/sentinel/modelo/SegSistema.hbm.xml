@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Oct 15, 2016 4:43:12 PM by Hibernate Tools 4.0.0 -->
+<hibernate-mapping>
+    <class name="com.vortexbird.sentinel.modelo.SegSistema" table="seg_sistema" schema="seguridad">
+        <id name="sisCodigo" type="java.lang.Long">
+            <column name="sis_codigo" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="segUsuario" class="com.vortexbird.sentinel.modelo.SegUsuario" fetch="select">
+            <column name="mod_usu_codigo" />
+        </many-to-one>
+        <property name="sisNombre" type="java.lang.String">
+            <column name="sis_nombre" length="50" not-null="true" />
+        </property>
+        <property name="sisDescripcion" type="java.lang.String">
+            <column name="sis_descripcion" length="200" />
+        </property>
+        <property name="sisEstadoRegistro" type="java.lang.String">
+            <column name="sis_estado_registro" length="1" not-null="true" />
+        </property>
+        
+        
+        <property name="sisUrl" type="java.lang.String">
+            <column name="sis_url" length="1000" not-null="false" />
+        </property>
+        <property name="sisIcono" type="java.lang.String">
+            <column name="sis_icono" not-null="false" />
+        </property>
+        
+        <set name="segSistemaCias" table="seg_sistema_cia" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="seg_sistema_sis_codigo" not-null="true" />
+            </key>
+            <one-to-many class="com.vortexbird.sentinel.modelo.SegSistemaCia" />
+        </set>
+        <set name="segGrupoOpcions" table="seg_grupo_opcion" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="sis_codigo" not-null="true" />
+            </key>
+            <one-to-many class="com.vortexbird.sentinel.modelo.SegGrupoOpcion" />
+        </set>
+        <set name="segRols" table="seg_rol" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="seg_sistema_sis_codigo" not-null="true" />
+            </key>
+            <one-to-many class="com.vortexbird.sentinel.modelo.SegRol" />
+        </set>
+    </class>
+</hibernate-mapping>

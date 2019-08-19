@@ -1,0 +1,60 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+
+	<ui:define name="content">
+		<f:view locale="#{localeBean.locale}">
+			<h:form id="formDialog">
+				<p:messages id="msg" />
+				<div class="ui-fluid">
+					<div class="card overview">
+						<p:panel header="#{msg.heCambiarClave}">
+							<div class="ui-g" align="center">
+								<div class="ui-g-12 ui-md-6 ui-lg-6">
+									<h:panelGroup styleClass="md-inputfield">
+										<p:password id="pwdClaveActual"
+											binding="#{cambiarClaveView.pwdClaveActual}" />
+										<label>#{msg.lblPassword}</label>
+									</h:panelGroup>
+									<p:message for="pwdClaveActual" />
+								</div>
+							</div>
+							<div class="ui-g" align="center">
+								<div class="ui-g-12 ui-md-6 ui-lg-6">
+									<h:panelGroup styleClass="md-inputfield">
+										<p:password id="pwdNuevaClave"
+											binding="#{cambiarClaveView.pwdNuevaClave}" />
+										<label>#{msg.lblNuevaClave}</label>
+									</h:panelGroup>
+									<p:message for="pwdNuevaClave" />
+
+								</div>
+							</div>
+							<div class="ui-g" align="center">
+								<div class="ui-g-12 ui-md-6 ui-lg-6">
+									<h:panelGroup styleClass="md-inputfield">
+										<p:password id="pwdConfirmaNuevaClave"
+											binding="#{cambiarClaveView.pwdConfirmaNuevaClave}" />
+											
+										<label>#{msg.lblConfirmarPassword}</label>
+									</h:panelGroup>
+									<p:message for="pwdConfirmaNuevaClave" />
+								</div>
+							</div>
+							<div class="ui-g" align="center">
+								<div class="ui-g-12 ui-md-6 ui-lg-6">
+									<p:commandButton action="#{cambiarClaveView.cambiarClave}"
+										value="#{msg.lblActualizar}" update=":formDialog" />
+								</div>
+							</div>
+						</p:panel>
+
+					</div>
+				</div>
+			</h:form>
+
+		</f:view>
+	</ui:define>
+</ui:composition>

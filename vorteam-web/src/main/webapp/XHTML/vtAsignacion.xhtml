@@ -1,0 +1,51 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+		 
+	<ui:define name="content">	
+			<h:form id="formDialog">
+				<p:messages id="msg" />
+				<p:growl id="men"/>
+					<p:panel id="panelVtAsignacion" header="VtAsignacion">							
+						<h:panelGrid columns="2" id="panelGrid" >
+												 	<h:outputText id="msgAsigId" value="AsigId"/>
+						 	<p:inputText id="txtAsigId" binding="#{vtAsignacionView.txtAsigId}">
+						 		<p:ajax update="panelVtAsignacion,msg,panelBotones" listener="#{vtAsignacionView.listener_txtId}"/>
+						 	</p:inputText>	
+																		
+													<h:outputText id="msgActivo" value=" Activo"/>
+							<p:inputText id="txtActivo" disabled="true" binding="#{vtAsignacionView.txtActivo}"/>
+													<h:outputText id="msgUsuaCreador" value=" UsuaCreador"/>
+							<p:inputText id="txtUsuaCreador" disabled="true" binding="#{vtAsignacionView.txtUsuaCreador}"/>
+													<h:outputText id="msgUsuaModificador" value=" UsuaModificador"/>
+							<p:inputText id="txtUsuaModificador" disabled="true" binding="#{vtAsignacionView.txtUsuaModificador}"/>
+													<h:outputText id="msgActiId_VtActividad" value=" ActiId_VtActividad"/>
+							<p:inputText id="txtActiId_VtActividad" disabled="true" binding="#{vtAsignacionView.txtActiId_VtActividad}"/>
+													<h:outputText id="msgPersId_VtPersonas" value=" PersId_VtPersonas"/>
+							<p:inputText id="txtPersId_VtPersonas" disabled="true" binding="#{vtAsignacionView.txtPersId_VtPersonas}"/>
+												
+																				<h:outputText id="msgFechaCreacion" value=" FechaCreacion"/>
+														<p:calendar showOn="button" navigator="true" locale="en" 
+							binding="#{vtAsignacionView.txtFechaCreacion}" >
+								<p:ajax event="dateSelect" listener="#{vtAsignacionView.listener_txtFechaCreacion}" />
+							</p:calendar>
+														<h:outputText id="msgFechaModificacion" value=" FechaModificacion"/>
+														<p:calendar showOn="button" navigator="true" locale="en" 
+							binding="#{vtAsignacionView.txtFechaModificacion}" >
+								<p:ajax event="dateSelect" listener="#{vtAsignacionView.listener_txtFechaModificacion}" />
+							</p:calendar>
+																	   </h:panelGrid>
+				</p:panel>
+	   			<p:panel id="panelBotones">
+					<div align="center">					
+						<p:commandButton id="btnSave" binding="#{vtAsignacionView.btnSave}" disabled="true" value="Save" action="#{vtAsignacionView.action_save()}" update="panelVtAsignacion,msg,panelBotones" />
+						<p:commandButton id="btnDelete" binding="#{vtAsignacionView.btnDelete}" disabled="true" value="Delete" action="#{vtAsignacionView.action_delete_master()}" onclick="if(!confirm('Do you really want to delete this Entry?')){return false;}" update="panelVtAsignacion,msg,panelBotones" />
+						<p:commandButton id="btnClear" value="Clear" action="#{vtAsignacionView.action_clear()}" update="panelVtAsignacion,msg,panelBotones" />
+					</div>
+				</p:panel>			
+			</h:form>
+  </ui:define>
+</ui:composition>

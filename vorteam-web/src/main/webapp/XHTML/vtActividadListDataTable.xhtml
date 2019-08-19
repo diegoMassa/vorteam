@@ -1,0 +1,224 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+		 
+	<ui:define name="content">		
+
+		  			<h:form id="frm">								  		
+						
+						<p:panel id="panelDataTableVtActividad" header="VtActividadData">
+							<p:growl id="men"/>				
+							<p:dataTable value="#{vtActividadView.data}" var="vtActividad"
+								paginator="true" rows="5">
+																										<p:column filterBy="#{vtActividad.actiId}" sortBy="#{vtActividad.actiId}" >
+										 <f:facet name="header">
+										<h:outputText value="actiId"/>
+										</f:facet>
+										 <h:outputText value="#{vtActividad.actiId}"/>
+										 </p:column>
+			                    																									
+										<p:column filterBy="#{vtActividad.activo}" sortBy="#{vtActividad.activo}" >
+										 <f:facet name="header">
+										<h:outputText value="Activo"/>
+										</f:facet>
+										 <h:outputText value="#{vtActividad.activo}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{vtActividad.casoSoporte}" sortBy="#{vtActividad.casoSoporte}" >
+										 <f:facet name="header">
+										<h:outputText value="CasoSoporte"/>
+										</f:facet>
+										 <h:outputText value="#{vtActividad.casoSoporte}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{vtActividad.descripcion}" sortBy="#{vtActividad.descripcion}" >
+										 <f:facet name="header">
+										<h:outputText value="Descripcion"/>
+										</f:facet>
+										 <h:outputText value="#{vtActividad.descripcion}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{vtActividad.facturable}" sortBy="#{vtActividad.facturable}" >
+										 <f:facet name="header">
+										<h:outputText value="Facturable"/>
+										</f:facet>
+										 <h:outputText value="#{vtActividad.facturable}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{vtActividad.fechaCreacion}" sortBy="#{vtActividad.fechaCreacion}" >
+										 <f:facet name="header">
+										<h:outputText value="FechaCreacion"/>
+										</f:facet>
+										 <h:outputText value="#{vtActividad.fechaCreacion}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{vtActividad.fechaLimite}" sortBy="#{vtActividad.fechaLimite}" >
+										 <f:facet name="header">
+										<h:outputText value="FechaLimite"/>
+										</f:facet>
+										 <h:outputText value="#{vtActividad.fechaLimite}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{vtActividad.fechaModificacion}" sortBy="#{vtActividad.fechaModificacion}" >
+										 <f:facet name="header">
+										<h:outputText value="FechaModificacion"/>
+										</f:facet>
+										 <h:outputText value="#{vtActividad.fechaModificacion}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{vtActividad.horasPresupuestadas}" sortBy="#{vtActividad.horasPresupuestadas}" >
+										 <f:facet name="header">
+										<h:outputText value="HorasPresupuestadas"/>
+										</f:facet>
+										 <h:outputText value="#{vtActividad.horasPresupuestadas}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{vtActividad.nombre}" sortBy="#{vtActividad.nombre}" >
+										 <f:facet name="header">
+										<h:outputText value="Nombre"/>
+										</f:facet>
+										 <h:outputText value="#{vtActividad.nombre}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{vtActividad.sprint}" sortBy="#{vtActividad.sprint}" >
+										 <f:facet name="header">
+										<h:outputText value="Sprint"/>
+										</f:facet>
+										 <h:outputText value="#{vtActividad.sprint}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{vtActividad.usuaCreador}" sortBy="#{vtActividad.usuaCreador}" >
+										 <f:facet name="header">
+										<h:outputText value="UsuaCreador"/>
+										</f:facet>
+										 <h:outputText value="#{vtActividad.usuaCreador}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{vtActividad.usuaModificador}" sortBy="#{vtActividad.usuaModificador}" >
+										 <f:facet name="header">
+										<h:outputText value="UsuaModificador"/>
+										</f:facet>
+										 <h:outputText value="#{vtActividad.usuaModificador}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{vtActividad.valorFacturable}" sortBy="#{vtActividad.valorFacturable}" >
+										 <f:facet name="header">
+										<h:outputText value="ValorFacturable"/>
+										</f:facet>
+										 <h:outputText value="#{vtActividad.valorFacturable}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{vtActividad.estaId_VtEstado}" sortBy="#{vtActividad.estaId_VtEstado}" >
+										 <f:facet name="header">
+										<h:outputText value="EstaId_VtEstado"/>
+										</f:facet>
+										 <h:outputText value="#{vtActividad.estaId_VtEstado}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{vtActividad.proyId_VtProyecto}" sortBy="#{vtActividad.proyId_VtProyecto}" >
+										 <f:facet name="header">
+										<h:outputText value="ProyId_VtProyecto"/>
+										</f:facet>
+										 <h:outputText value="#{vtActividad.proyId_VtProyecto}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{vtActividad.tiacId_VtTipoActividad}" sortBy="#{vtActividad.tiacId_VtTipoActividad}" >
+										 <f:facet name="header">
+										<h:outputText value="TiacId_VtTipoActividad"/>
+										</f:facet>
+										 <h:outputText value="#{vtActividad.tiacId_VtTipoActividad}"/>
+										</p:column>   
+			                    			                    
+								<p:column headerText="Options">
+									<p:commandButton id="btnEdit" icon="ui-icon-pencil"
+										update=":dialogVtActividad"
+										actionListener="#{vtActividadView.action_edit}">
+										<f:attribute name="selectedVtActividad" value="#{vtActividad}" />
+									</p:commandButton>
+									<p:commandButton id="btnDelete"									
+										title="Delete" actionListener="#{vtActividadView.action_delete_datatable}"
+										onclick="if(!confirm('Do you really want to delete this Entry?')){return false;}"
+										icon="ui-icon-trash" update="@form">
+										<f:attribute name="selectedVtActividad" value="#{vtActividad}" />
+									</p:commandButton>
+								</p:column>									                    
+							</p:dataTable>	
+						</p:panel>
+						<p:panel id="panelBoton">
+							<div align="center">
+								<p:commandButton id="btnNew" value="New"
+									action="#{vtActividadView.action_new()}" update=":dialogVtActividad" />
+							</div>
+						</p:panel>						
+		   			</h:form>
+					<p:dialog id="dialogVtActividad" appendTo="@(body)" draggable="true"
+						closable="false" visible="#{vtActividadView.showDialog}" resizable="false"
+						modal="true" width="500">
+						<h:form id="formDialog">
+							<p:messages id="msg" />
+							<p:panel id="panelVtActividad" header="VtActividad">							
+							    <h:panelGrid columns="2" id="panelGrid" >
+																		 <h:outputText id="msgActiId" value="ActiId"/>
+									 <p:inputText id="txtActiId" binding="#{vtActividadView.txtActiId}">
+									 <p:ajax update=":dialogVtActividad" listener="#{vtActividadView.listener_txtId}"/>
+									 </p:inputText>	
+																											
+																		<h:outputText id="msgActivo" value=" Activo"/>
+									<p:inputText id="txtActivo" disabled="true" binding="#{vtActividadView.txtActivo}"/>
+																		<h:outputText id="msgCasoSoporte" value=" CasoSoporte"/>
+									<p:inputText id="txtCasoSoporte" disabled="true" binding="#{vtActividadView.txtCasoSoporte}"/>
+																		<h:outputText id="msgDescripcion" value=" Descripcion"/>
+									<p:inputText id="txtDescripcion" disabled="true" binding="#{vtActividadView.txtDescripcion}"/>
+																		<h:outputText id="msgFacturable" value=" Facturable"/>
+									<p:inputText id="txtFacturable" disabled="true" binding="#{vtActividadView.txtFacturable}"/>
+																		<h:outputText id="msgHorasPresupuestadas" value=" HorasPresupuestadas"/>
+									<p:inputText id="txtHorasPresupuestadas" disabled="true" binding="#{vtActividadView.txtHorasPresupuestadas}"/>
+																		<h:outputText id="msgNombre" value=" Nombre"/>
+									<p:inputText id="txtNombre" disabled="true" binding="#{vtActividadView.txtNombre}"/>
+																		<h:outputText id="msgSprint" value=" Sprint"/>
+									<p:inputText id="txtSprint" disabled="true" binding="#{vtActividadView.txtSprint}"/>
+																		<h:outputText id="msgUsuaCreador" value=" UsuaCreador"/>
+									<p:inputText id="txtUsuaCreador" disabled="true" binding="#{vtActividadView.txtUsuaCreador}"/>
+																		<h:outputText id="msgUsuaModificador" value=" UsuaModificador"/>
+									<p:inputText id="txtUsuaModificador" disabled="true" binding="#{vtActividadView.txtUsuaModificador}"/>
+																		<h:outputText id="msgValorFacturable" value=" ValorFacturable"/>
+									<p:inputText id="txtValorFacturable" disabled="true" binding="#{vtActividadView.txtValorFacturable}"/>
+																		<h:outputText id="msgEstaId_VtEstado" value=" EstaId_VtEstado"/>
+									<p:inputText id="txtEstaId_VtEstado" disabled="true" binding="#{vtActividadView.txtEstaId_VtEstado}"/>
+																		<h:outputText id="msgProyId_VtProyecto" value=" ProyId_VtProyecto"/>
+									<p:inputText id="txtProyId_VtProyecto" disabled="true" binding="#{vtActividadView.txtProyId_VtProyecto}"/>
+																		<h:outputText id="msgTiacId_VtTipoActividad" value=" TiacId_VtTipoActividad"/>
+									<p:inputText id="txtTiacId_VtTipoActividad" disabled="true" binding="#{vtActividadView.txtTiacId_VtTipoActividad}"/>
+																		
+																													<h:outputText id="msgFechaCreacion" value=" FechaCreacion"/>
+																				<p:calendar showOn="button" navigator="true" locale="en" 
+										binding="#{vtActividadView.txtFechaCreacion}" >
+										<p:ajax event="dateSelect" listener="#{vtActividadView.listener_txtFechaCreacion}"  />
+										</p:calendar>
+																				<h:outputText id="msgFechaLimite" value=" FechaLimite"/>
+																				<p:calendar showOn="button" navigator="true" locale="en" 
+										binding="#{vtActividadView.txtFechaLimite}" >
+										<p:ajax event="dateSelect" listener="#{vtActividadView.listener_txtFechaLimite}"  />
+										</p:calendar>
+																				<h:outputText id="msgFechaModificacion" value=" FechaModificacion"/>
+																				<p:calendar showOn="button" navigator="true" locale="en" 
+										binding="#{vtActividadView.txtFechaModificacion}" >
+										<p:ajax event="dateSelect" listener="#{vtActividadView.listener_txtFechaModificacion}"  />
+										</p:calendar>
+																										    </h:panelGrid>
+							</p:panel>						   
+							<p:panel id="panelBotones">
+								<div align="center">					
+									<p:commandButton id="btnSave" binding="#{vtActividadView.btnSave}" value="Save" action="#{vtActividadView.action_save()}" update=":dialogVtActividad :frm:panelDataTableVtActividad" />
+									<p:commandButton id="btnClear" value="Clear" action="#{vtActividadView.action_clear()}" update=":dialogVtActividad" />
+									<p:commandButton id="btnExit" value="Exit" action="#{vtActividadView.action_closeDialog()}" update=":dialogVtActividad" />
+								</div>
+				</p:panel>
+			</h:form>
+		</p:dialog>
+	</ui:define>
+</ui:composition>
+

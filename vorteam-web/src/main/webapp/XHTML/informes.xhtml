@@ -1,0 +1,49 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+
+	<ui:define name="content">
+		<f:view locale="#{localeBean.locale}">
+			<h:form id="formDialog">
+				<p:messages id="msg" />
+				<div class="ui-fluid">
+					<div class="card overview">
+						<p:panel header="#{msg.heInformes}">
+							<div class="ui-g">
+								<div class="ui-g-12 ui-md-6 ui-lg-6">
+									<p:commandButton value="#{msg.heReporteEntreFechas}"
+										action="reporteTiempoEntreFechas.xhtml" />
+								</div>
+								<div class="ui-g-12 ui-md-6 ui-lg-6">
+									<p:commandButton value="#{msg.heCostosPorProyectos}"
+										action="costosPorProyectos.xhtml" />
+								</div>
+							</div>
+							<div class="ui-g">
+								<div class="ui-g-12 ui-md-6 ui-lg-6">
+									<p:commandButton value="#{msg.heOcupacionPlanta}"
+										action="ocupacionPlanta.xhtml" />
+								</div>
+								<div class="ui-g-12 ui-md-6 ui-lg-6">
+									<p:commandButton value="#{msg.heCostosPorPersona}"
+										action="costosPorPersona.xhtml" />
+								</div>
+							</div>
+							<div class="ui-g">
+								<div class="ui-g-12 ui-md-6 ui-lg-6">
+									<p:commandButton value="#{msg.heCostoAcumuladoProyecto}"
+										action="costoAcumuladoProyecto.xhtml" />
+								</div>
+							</div>
+						</p:panel>
+					</div>
+
+
+				</div>
+			</h:form>
+
+		</f:view>
+	</ui:define>
+</ui:composition>

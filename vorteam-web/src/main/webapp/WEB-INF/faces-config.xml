@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<faces-config
+    xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd"
+    version="2.2">
+
+    <application>
+        <el-resolver>org.springframework.web.jsf.el.SpringBeanFacesELResolver</el-resolver>
+        <locale-config>
+            <default-locale>es_CO</default-locale>
+            <supported-locale>es_CO</supported-locale>
+            <supported-locale>en_US</supported-locale>
+        </locale-config>
+        <resource-bundle>
+            <base-name>i18n.messages</base-name>
+            <var>msgs</var>
+        </resource-bundle>
+    </application>
+
+    <name>primefaces_ultima</name>
+
+    <component>
+         <component-type>org.primefaces.component.UltimaMenu</component-type>
+         <component-class>org.primefaces.ultima.component.menu.UltimaMenu</component-class>
+     </component>
+
+     <render-kit>
+         <renderer>
+             <component-family>org.primefaces.component</component-family>
+             <renderer-type>org.primefaces.component.UltimaMenuRenderer</renderer-type>
+             <renderer-class>org.primefaces.ultima.component.menu.UltimaMenuRenderer</renderer-class>
+         </renderer>
+     </render-kit>
+
+   <navigation-rule>
+            <from-view-id>/login.xhtml</from-view-id>
+            <navigation-case>
+                <from-outcome>exito</from-outcome>
+                <to-view-id>/dashboard.xhtml</to-view-id>
+
+            </navigation-case>
+            <navigation-case>
+                <from-outcome>error</from-outcome>
+                <to-view-id>/login.xhtml?authfailed=true</to-view-id>
+                <redirect />
+            </navigation-case>
+        </navigation-rule>
+
+        <navigation-rule>
+            <from-view-id>/*</from-view-id>
+            <navigation-case>
+                <from-outcome>dashboard</from-outcome>
+                <to-view-id>/dashboard.xhtml</to-view-id>
+            </navigation-case>
+            <navigation-case>
+                <from-outcome>font-icons.xhtml</from-outcome>
+                <to-view-id>/font-icons.xhtml</to-view-id>
+            </navigation-case>
+        </navigation-rule>
+        
+      
+        
+
+</faces-config>

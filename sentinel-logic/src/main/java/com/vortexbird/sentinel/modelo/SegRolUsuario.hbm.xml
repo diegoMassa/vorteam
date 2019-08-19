@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Oct 15, 2016 4:43:12 PM by Hibernate Tools 4.0.0 -->
+<hibernate-mapping>
+    <class name="com.vortexbird.sentinel.modelo.SegRolUsuario" table="seg_rol_usuario" schema="seguridad">
+        <id name="rluCodigo" type="java.lang.Long">
+            <column name="rlu_codigo" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="segUsuarioBySegUsuarioUsuCodigo" class="com.vortexbird.sentinel.modelo.SegUsuario" fetch="select">
+            <column name="seg_usuario_usu_codigo" not-null="true" />
+        </many-to-one>
+        <many-to-one name="segRol" class="com.vortexbird.sentinel.modelo.SegRol" fetch="select">
+            <column name="seg_rol_rol_codigo" not-null="true" />
+        </many-to-one>
+        <many-to-one name="segUsuarioByModUsuCodigo" class="com.vortexbird.sentinel.modelo.SegUsuario" fetch="select">
+            <column name="mod_usu_codigo" />
+        </many-to-one>
+        <property name="rluEstadoRegistro" type="java.lang.String">
+            <column name="rlu_estado_registro" length="1" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

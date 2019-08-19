@@ -1,0 +1,245 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+	<ui:define name="content">
+		<f:view>
+			<script type="text/javascript">
+				function justNumbers(e) {
+					var keynum = window.event ? window.event.keyCode : e.which;
+					if (keynum == 8)
+						return true;
+
+					return /\d/.test(String.fromCharCode(keynum));
+				}
+			</script>
+			<p:ajaxStatus onstart="PF('statusDialog').show()"
+				onsuccess="PF('statusDialog').hide()" />
+			<p:dialog modal="true" widgetVar="statusDialog"
+				header="Cargando informacion" draggable="false" closable="false">
+				<p:graphicImage
+					value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />
+			</p:dialog>
+
+			<h:form>
+				<p:growl id="pgrow" autoUpdate="true" />
+				<p:panel>
+					<br />
+					<div align="center">
+						<p:outputLabel value="Creacion de Usuarios DATAPRO"
+							style="color: #CCC;font-size: xx-large; " />
+					</div>
+					<br />
+					<br />
+
+					<div align="center">
+						<h:panelGrid id="panelUsuarios">
+							<p:dataTable id="dataTableUsuarios"
+								value="#{createUserAllSystem.data}" var="segUsuario"
+								paginator="true" rows="10">
+
+								<p:column filterBy="#{segUsuario.usuNombres}"
+									filterMatchMode="contains" sortBy="#{segUsuario.usuNombres}"
+									headerText="Nombres">
+									<h:outputText value="#{segUsuario.usuNombres}" />
+								</p:column>
+
+								<p:column filterBy="#{segUsuario.usuApellidos}"
+									filterMatchMode="contains" sortBy="#{segUsuario.usuApellidos}"
+									headerText="Apellidos">
+									<h:outputText value="#{segUsuario.usuApellidos}" />
+								</p:column>
+
+								<p:column filterBy="#{segUsuario.usuEstadoRegistroNombre}"
+									filterMatchMode="contains"
+									sortBy="#{segUsuario.usuEstadoRegistroNombre}"
+									headerText="Estado Registro">
+									<h:outputText value="#{segUsuario.usuEstadoRegistroNombre}" />
+								</p:column>
+
+								<p:column filterBy="#{segUsuario.usuLogin}"
+									filterMatchMode="contains" sortBy="#{segUsuario.usuLogin}"
+									headerText="Login">
+									<h:outputText value="#{segUsuario.usuLogin}" />
+								</p:column>
+								<f:facet name="footer">
+									<div align="center">
+										<p:commandButton value="Nuevo"
+											action="#{createUserAllSystem.abrirPu()}"
+											update=":j_idt18:dialogSellPersona" />
+									</div>
+								</f:facet>
+							</p:dataTable>
+						</h:panelGrid>
+					</div>
+				</p:panel>
+
+				<!-- ########## DIALOGO DATOS  ############## -->
+				<p:dialog id="dialogSellPersona" widgetVar="dialogDatos"
+					header="Creacion De usuario" draggable="true" closable="true"
+					resizable="false" modal="true" width="1100" height="500">
+
+					<p:growl id="msgDialog" showDetail="false" />
+
+
+					<p:panel id="panelSellPersona" header="Datos Generales">
+						<h:panelGrid columns="6" id="panelGridSellPersona"
+							style="width:1000px">
+
+							<h:outputText value=" Número de Documento*: " />
+							<p:inputText id="txtNumeroDocumento"
+								onkeypress="return justNumbers(event);"
+								binding="#{createUserAllSystem.txtNumeroDocumento}">
+								<p:ajax update="panelSellPersona,panelRolles "
+									listener="#{createUserAllSystem.listener_numero_documento()}" />
+							</p:inputText>
+
+							<h:outputText value="Sucursal*: " />
+							<p:selectCheckboxMenu id="somSucursalesMultiple"
+								value="#{createUserAllSystem.sucursalesSeleccionadas}"
+								label="[-- Sucursales --]" filter="true"
+								filterMatchMode="contains" panelStyle="width:350px">
+								<f:selectItems value="#{createUserAllSystem.lasSucursales}" />
+							</p:selectCheckboxMenu>
+
+							<h:outputText value=" Primer  Nombre*: " />
+							<p:inputText id="txtPrimerNombre"
+								binding="#{createUserAllSystem.txtPrimerNombre}" maxlength="50" />
+
+							<h:outputText value=" Segundo Nombre: " />
+							<p:inputText id="txtSegundoNombre"
+								binding="#{createUserAllSystem.txtSegundoNombre}" maxlength="50" />
+
+							<h:outputText value="Primer Apellido*:" />
+							<p:inputText id="txtPrimerApellido"
+								binding="#{createUserAllSystem.txtPrimerApellido}"
+								maxlength="50" />
+
+							<h:outputText value=" Segundo Apellido: " />
+							<p:inputText id="txtSegundoApellido"
+								binding="#{createUserAllSystem.txtSegundoApellido}"
+								maxlength="50" />
+
+							<h:outputText value="Celular*: " />
+							<p:inputMask id="txtCelular"
+								binding="#{createUserAllSystem.txtCelular}"
+								mask="(999) 999-9999" />
+
+
+							<h:outputText value="Email*: " />
+							<p:inputText id="txtEmail"
+								binding="#{createUserAllSystem.txtEmail}" maxlength="50" />
+						</h:panelGrid>
+					</p:panel>
+					<br />
+					<div align="center">
+						<p:panel id="panelRolles" >
+							<h:panelGrid columns="12" id="panelRollSellout">
+								<p:outputLabel value="Rolles Sellout" />
+								<p:selectBooleanCheckbox
+									value="#{createUserAllSystem.enSellout}">
+									<p:ajax event="change"
+										update="panelRollSellout,panelDatosSellout"
+										listener="#{createUserAllSystem.descactivarPanel}" />
+								</p:selectBooleanCheckbox>
+
+								<p:selectCheckboxMenu id="somRolesSellou"
+									value="#{createUserAllSystem.somRolesSellou}"
+									label="[-- Roles Sellout --]" filter="true"
+									disabled="#{!createUserAllSystem.desactivarDatosSellout}"
+									filterMatchMode="contains">
+									<f:selectItem itemLabel="Administrador" itemValue="1" />
+									<f:selectItem itemLabel="Administrador Sellout VIN"
+										itemValue="2" />
+									<f:selectItem itemLabel="Asesor" itemValue="3" />
+								</p:selectCheckboxMenu>
+
+								<p:outputLabel value="Rolles VCloud" />
+								<p:selectBooleanCheckbox value="#{createUserAllSystem.enVcloud}">
+									<p:ajax event="change" update="somRolesVCloud"
+										listener="#{createUserAllSystem.desactivarVcloud}" />
+								</p:selectBooleanCheckbox>
+								<p:selectOneMenu id="somRolesVCloud"
+									value="#{createUserAllSystem.somRolesVCloud}"
+									label="[-- Roles VCloud --]" filter="true"
+									disabled="#{!createUserAllSystem.desactivarDatosVcloud}"
+									filterMatchMode="contains">
+									<f:selectItems value="#{createUserAllSystem.losRollesVcloud}" />
+								</p:selectOneMenu>
+								<p:outputLabel value="Rolles CRM" />
+								<p:selectBooleanCheckbox value="#{createUserAllSystem.enCrm}">
+									<p:ajax event="change" update="somRolesCrm"
+										listener="#{createUserAllSystem.desactivarCRM}" />
+								</p:selectBooleanCheckbox>
+								<p:selectOneMenu id="somRolesCrm"
+									value="#{createUserAllSystem.somRolesCRM}"
+									label="[-- Roles CRM --]" filter="true"
+									disabled="#{!createUserAllSystem.desactivarDatosCRM}"
+									filterMatchMode="contains">
+									<f:selectItems value="#{createUserAllSystem.losRollesCrm}" />
+								</p:selectOneMenu>
+
+							</h:panelGrid>
+
+
+						</p:panel>
+					</div>
+					<br />
+					<p:panel id="panelDatosSellout" header="Datos Sellout"
+						visible="#{createUserAllSystem.desactivarDatosSellout}">
+
+						<h:panelGrid columns="6">
+							<h:outputText value="Tiene Whatsapp?* " />
+							<p:selectOneRadio id="sorTieneWs"
+								binding="#{createUserAllSystem.sorTieneWhatsapp}">
+								<f:selectItem itemLabel="Si" itemValue="S" />
+								<f:selectItem itemLabel="No" itemValue="N" />
+							</p:selectOneRadio>
+
+							<h:outputText value="Dirección: " />
+							<p:inputText id="txtDireccion"
+								binding="#{createUserAllSystem.txtDireccion}" maxlength="50" />
+
+							<h:outputText value="Fecha Nacimiento*: " />
+							<p:calendar showOn="button" yearRange="c-100:c+0"
+								readonlyInput="true" navigator="true" locale="en"
+								value="#{createUserAllSystem.txtFechaNacimiento}" />
+
+							<h:outputText value="Fecha Ingreso*: " />
+							<p:calendar showOn="button" yearRange="c-100:c+0"
+								readonlyInput="true" navigator="true" locale="en"
+								value="#{createUserAllSystem.txtFechaIngreso}" />
+
+							<h:outputText value="Ciudad Residencia: " />
+							<p:selectOneMenu id="somCiudadResidencia" filter="true"
+								filterMatchMode="contains"
+								binding="#{createUserAllSystem.somCiudadResidencia}">
+								<f:selectItem itemLabel="[-- Ciudad --]" itemValue="-1" />
+								<f:selectItems
+									value="#{createUserAllSystem.lasCiudadesResidencia}" />
+							</p:selectOneMenu>
+
+							<h:outputText value="Genero*: " />
+							<p:selectOneMenu id="somGenero"
+								binding="#{createUserAllSystem.somGenero}">
+								<f:selectItem itemLabel="[-------]" itemValue="-1" />
+								<f:selectItem itemLabel="Hombre" itemValue="M" />
+								<f:selectItem itemLabel="Mujer" itemValue="F" />
+							</p:selectOneMenu>
+						</h:panelGrid>
+					</p:panel>
+					<br />
+					<div align="center">
+						<p:commandButton value="Crear Usuario"
+							action="#{createUserAllSystem.createUserSystemSelectec()}" update="txtNumeroDocumento" />
+					</div>
+
+				</p:dialog>
+			</h:form>
+		</f:view>
+	</ui:define>
+
+</ui:composition>

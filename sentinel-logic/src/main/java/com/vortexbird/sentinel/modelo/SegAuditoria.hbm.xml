@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Oct 15, 2016 4:43:12 PM by Hibernate Tools 4.0.0 -->
+<hibernate-mapping>
+    <class name="com.vortexbird.sentinel.modelo.SegAuditoria" table="seg_auditoria" schema="seguridad">
+        <id name="autCodigo" type="java.lang.Long">
+            <column name="aut_codigo" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="segUsuario" class="com.vortexbird.sentinel.modelo.SegUsuario" fetch="select">
+            <column name="usu_codigo" />
+        </many-to-one>
+        <property name="tabla" type="java.lang.String">
+            <column name="tabla" length="200" />
+        </property>
+        <property name="codRegistro" type="java.lang.Long">
+            <column name="cod_registro" precision="131089" scale="0" />
+        </property>
+        <property name="campo" type="java.lang.String">
+            <column name="campo" length="200" />
+        </property>
+        <property name="tipo" type="java.lang.String">
+            <column name="tipo" length="100" />
+        </property>
+        <property name="fecha" type="java.util.Date">
+            <column name="fecha" length="13" />
+        </property>
+        <property name="valorAnterior" type="java.lang.String">
+            <column name="valor_anterior" length="200" />
+        </property>
+        <property name="valorNuevo" type="java.lang.String">
+            <column name="valor_nuevo" length="200" />
+        </property>
+    </class>
+</hibernate-mapping>

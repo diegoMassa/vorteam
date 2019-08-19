@@ -1,0 +1,129 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+
+	<ui:define name="content">
+		<f:view locale="#{localeBean.locale}">
+			<h:form id="frm">
+				<div class="ui-fluid">
+					<div class="card overview">
+
+						<p:panel id="pnlTiposActividad" header="#{msg.heTiposActividad}">
+							<p:growl id="men" />
+
+							<p:dataTable value="#{gestionTipoActividadView.tiposActividades}"
+								var="tipoActividad" scrollable="true" scrollWidth="100%"
+								paginator="true" filterDelay="1000" reflow="true"
+								emptyMessage="#{msgs.msgTablaVacia}"
+								paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+								rowsPerPageTemplate="10,20,30" rows="10">
+								<p:column headerText="#{msg.lblTipoActividad}"
+									style="text-align: center"
+									filterBy="#{tipoActividad.descripcion}"
+									filterMatchMode="contains">
+									<h:outputText value="#{tipoActividad.descripcion}" />
+								</p:column>
+								<p:column headerText="#{msg.lblClasificacionFinanciera}"
+									style="text-align: center"
+									filterBy="#{tipoActividad.clasificacionFinanciera}"
+									filterMatchMode="contains">
+									<h:outputText value="#{tipoActividad.clasificacionFinanciera}" />
+								</p:column>
+								<p:column headerText="#{msg.lblEstado}"
+									style="text-align: center" width="10%"
+									filterBy="#{tipoActividad.activoDescripcion}"
+									filterMatchMode="contains">
+									<h:outputText value="#{tipoActividad.activoDescripcion}" />
+								</p:column>
+								<p:column headerText="#{msg.lblOpciones}" width="10%"
+									style="text-align: center">
+									<p:commandButton icon="#{icon.iconUpdate}"
+										value="#{msg.lblModificar}"
+										actionListener="#{gestionTipoActividadView.modificarTipoActividad}"
+										update=":dialogTipoActividad">
+										<f:attribute name="tiacId" value="#{tipoActividad.tiacId}" />
+									</p:commandButton>
+								</p:column>
+								<f:facet name="footer">
+									<div align="right">
+										<p:commandButton id="btnNuevo"
+											action="#{gestionTipoActividadView.nuevoTipoActividad}"
+											update=":dialogTipoActividad" styleClass="oro" icon="ui-icon-add" />
+									</div>
+								</f:facet>
+							</p:dataTable>
+						</p:panel>
+					</div>
+				</div>
+			</h:form>
+			
+			<p:dialog id="dialogTipoActividad" draggable="true" closable="true"
+				responsive="true" closeOnEscape="true"
+				visible="#{gestionTipoActividadView.esVisibleDlgTipoActividad}"
+				resizable="true" modal="true" width="60%" height="90%">
+				<h:form id="frmTipoActividad">
+					<div class="ui-fluid">
+						<div class="ui-g">
+							<div class="ui-g-12">
+								<h:panelGroup styleClass="md-inputfield">
+									<p:inputText id="txtTipoActividad"
+										binding="#{gestionTipoActividadView.txtTipoActividad}" />
+									<label>#{msg.lblTipoActividad}</label>
+								</h:panelGroup>
+								<p:message for="txtTipoActividad" />
+							</div>
+							
+						</div>
+						<div class="ui-g">
+							<div class="ui-g-12 ui-md-6">
+								<p:selectOneMenu style="min-width:0;" id="somClasificacionFinanciera"
+									binding="#{gestionTipoActividadView.somClasificacionFinanciera}"
+									filter="true" filterMatchMode="contains">
+									<f:selectItem itemValue="#{msg.somSeleccionarValue}"
+										itemLabel="#{msg.lblSeleccionarClasficacionFinanciera}" />
+									<f:selectItems value="#{gestionTipoActividadView.siClasificacionFinanciera}" />
+								</p:selectOneMenu>
+								<p:message for="somClasificacionFinanciera" />
+							</div>
+							<div class="ui-g-12 ui-md-6">
+								<p:selectOneMenu style="min-width:0;" id="somActivo"
+									binding="#{gestionTipoActividadView.somActivo}"
+									filter="true" filterMatchMode="contains">
+									<f:selectItem itemValue="#{msg.somSeleccionarValue}"
+										itemLabel="#{msg.lblSeleccionarEstado}" />
+									<f:selectItems value="#{gestionTipoActividadView.siActivo}" />
+								</p:selectOneMenu>
+								<p:message for="somActivo" />
+							</div>
+						</div>
+
+						<div class="ui-g">
+							<div class="ui-g-12 ui-md-4 ui-lg-4">
+								<p:commandButton id="btnSave" value="#{msg.lblGuardar}"
+									action="#{gestionTipoActividadView.guardarTipoActividad}"
+									update=":dialogTipoActividad, :frm:pnlTiposActividad" />
+							</div>
+
+							<div class="ui-g-12 ui-md-4 ui-lg-4">
+								<p:commandButton id="btnClear" value="Limpiar Pantalla"
+									action="#{gestionTipoActividadView.limpiarFormularioTipoActividad}"
+									update=":dialogTipoActividad" />
+							</div>
+
+							<div class="ui-g-12 ui-md-4 ui-lg-4">
+								<p:commandButton id="btnExit" value="Salir"
+									action="#{gestionTipoActividadView.cerrarDlgTipoActividad}"
+									update=":dialogTipoActividad" />
+
+							</div>
+						</div>
+
+					</div>
+				</h:form>
+			</p:dialog>
+			
+		</f:view>
+	</ui:define>
+</ui:composition>

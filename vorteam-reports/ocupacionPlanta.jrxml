@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ocupacionPlanta" pageWidth="792" pageHeight="612" orientation="Landscape" columnWidth="752" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="e11f7d82-bfcc-43be-921b-b8bb88520fde">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="VorteamDataAdapter.xml"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<parameter name="P_FECHA_INICIO" class="java.util.Date">
+		<defaultValueExpression><![CDATA[null]]></defaultValueExpression>
+	</parameter>
+	<parameter name="P_FECHA_FIN" class="java.util.Date">
+		<defaultValueExpression><![CDATA[null]]></defaultValueExpression>
+	</parameter>
+	<parameter name="P_PERS_ID" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[null]]></defaultValueExpression>
+	</parameter>
+	<parameter name="P_PROY_ID" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[null]]></defaultValueExpression>
+	</parameter>
+	<parameter name="P_TIAC_ID" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[null]]></defaultValueExpression>
+	</parameter>
+	<parameter name="P_SUBREPORT_DIR" class="java.lang.String">
+		<defaultValueExpression><![CDATA["/Users/johan/Documents/workspace-vorteam/vorteam-reports/"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="P_NOMBRE_PROYECTO" class="java.lang.String">
+		<defaultValueExpression><![CDATA["TODOS"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="P_NOMBRE_TIPO_ACTIVIDAD" class="java.lang.String">
+		<defaultValueExpression><![CDATA["TODAS"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="P_NOMBRE_COMPLETO_PERSONA" class="java.lang.String">
+		<defaultValueExpression><![CDATA["TOD@S"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select
+     sum(reti.horas_ejecutadas) horas_ejecutadas,
+     proy.proy_id,
+     proy.nombre_proyecto,
+     pers.pers_id,
+     pers.nombre || ' ' ||pers.apellidos nombre
+from    vt_reporte_tiempo reti
+inner   join vt_asignacion asig on reti.asig_id = asig.asig_id
+inner   join vt_actividad acti on acti.acti_id = asig.acti_id
+inner   join vt_tipo_actividad tiac on tiac.tiac_id = acti.tiac_id
+inner   join vt_proyecto proy on acti.proy_id = proy.proy_id
+inner   join vt_estado esta on esta.esta_id = reti.esta_id
+inner   join vt_personas pers on asig.pers_id = pers.pers_id
+inner   join vt_linea_negocio line on proy.line_id = line.line_id
+inner   join vt_proy_costo prco on pers.pers_id = prco.pers_id
+        and prco.proy_id = proy.proy_id
+where date_trunc('day',reti.fecha) >= coalesce( $P{P_FECHA_INICIO}, date_trunc('day',reti.fecha))
+and  date_trunc('day',reti.fecha) <= coalesce( $P{P_FECHA_FIN}, date_trunc('day',reti.fecha))
+and  pers.pers_id = coalesce( $P{P_PERS_ID}, pers.pers_id)
+and  proy.proy_id = coalesce( $P{P_PROY_ID}, proy.proy_id)
+and  tiac.tiac_id = coalesce( $P{P_TIAC_ID}, tiac.tiac_id)
+group by proy.proy_id,
+     proy.nombre_proyecto,
+     pers.pers_id,
+     pers.nombre || ' ' ||pers.apellidos
+order   by proy.proy_id, pers.pers_id]]>
+	</queryString>
+	<field name="horas_ejecutadas" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="horas_ejecutadas"/>
+	</field>
+	<field name="proy_id" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="proy_id"/>
+	</field>
+	<field name="nombre_proyecto" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="nombre_proyecto"/>
+	</field>
+	<field name="pers_id" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="pers_id"/>
+	</field>
+	<field name="nombre" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="nombre"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="140" splitType="Stretch">
+			<image>
+				<reportElement x="0" y="0" width="130" height="50" uuid="fe1c1446-a7b0-4680-8746-b1122b132571"/>
+				<imageExpression><![CDATA[$P{P_SUBREPORT_DIR}+"LOGO.VB.jpg"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="130" y="0" width="310" height="15" uuid="f6aec1b1-05b1-47ae-98a5-93c6f1279541"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[VORTEXBIRD]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="130" y="15" width="310" height="15" uuid="cdb61e25-a5bf-4dd2-b7c6-e55fcbb15d26"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[OCUPACIÓN PLANTA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="60" width="750" height="30" uuid="a8d69d59-b291-44c7-b093-754fa54e546e"/>
+				<text><![CDATA[El siguiente informe, muestra en detalle la ocupación de la planta (En Hrs).]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="90" width="750" height="15" uuid="c59947bd-d384-4396-840c-8ec3bb7e2958"/>
+				<text><![CDATA[Se calculan los resultados, teniendo en cuenta los siguientes filtros:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="0" y="105" width="750" height="35" uuid="a179e318-e23c-4931-b447-38e77402e65e"/>
+				<textFieldExpression><![CDATA["Actividades ejecutadas desde ["+
+($P{P_FECHA_INICIO}==null?"SIEMPRE": (new java.text.SimpleDateFormat("dd/MMM/yyyy")).format($P{P_FECHA_INICIO}) )	+ "] hasta [" +
+($P{P_FECHA_FIN}==null?"SIEMPRE": (new java.text.SimpleDateFormat("dd/MMM/yyyy")).format($P{P_FECHA_FIN}) )	+ "], para el proyecto [" +
+($P{P_NOMBRE_PROYECTO} == null? "TODOS":$P{P_NOMBRE_PROYECTO}) + "]. Tipo de actividad [" + 
+($P{P_NOMBRE_TIPO_ACTIVIDAD} == null?"TODOS":$P{P_NOMBRE_TIPO_ACTIVIDAD})+"]. Recurso humano: [" + $P{P_NOMBRE_COMPLETO_PERSONA} + "]"]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="431" splitType="Stretch">
+			<stackedBar3DChart>
+				<chart isShowLegend="true" evaluationTime="Report">
+					<reportElement x="0" y="0" width="750" height="431" uuid="c1bacb8e-f528-455e-8cba-e0bd4d1c0a12"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend position="Bottom"/>
+				</chart>
+				<categoryDataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{proy_id} + ". " + $F{nombre_proyecto}]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{nombre}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{horas_ejecutadas}]]></valueExpression>
+						<labelExpression><![CDATA[$F{proy_id}.toString()]]></labelExpression>
+					</categorySeries>
+				</categoryDataset>
+				<bar3DPlot isShowLabels="true">
+					<plot backgroundAlpha="1.0" foregroundAlpha="0.5" labelRotation="90.0"/>
+					<itemLabel/>
+					<categoryAxisFormat labelRotation="90.0">
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+					</valueAxisFormat>
+				</bar3DPlot>
+			</stackedBar3DChart>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

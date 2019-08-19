@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Author Zathuracode Generator -->
+
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+    xmlns:beans="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+	http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.0.xsd">
+	 
+<!-- 	 
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+    xmlns:beans="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans 
+    					classpath:spring-beans-4.2.xsd
+						http://www.springframework.org/schema/security 
+						classpath:spring-security-4.0.xsd">
+ -->	
+    <http auto-config="true" >
+	    <intercept-url pattern="/login.xhtml" 			access="permitAll" />
+		<intercept-url pattern="/404.xhtml" 			access="permitAll" />
+		<intercept-url pattern="/gui/forms/front/*" 	access="permitAll"/>
+        <intercept-url pattern="/" 						access="permitAll" />
+        <intercept-url pattern="/webhook" 				access="permitAll" />
+        <intercept-url pattern="/webhook/**" 			access="permitAll" />
+        <intercept-url pattern="/XHTML/**" access="hasRole('ROLE_USER') or hasRole('Admin')" />
+        <intercept-url pattern="/dashboard.xhtml" access="hasRole('ROLE_USER') or hasRole('Admin')" />
+        
+
+        <form-login login-page="/login.xhtml" authentication-failure-url="/login.xhtml?authfailed=true" default-target-url="/dashboard.xhtml" always-use-default-target="false"  />
+			
+		<logout invalidate-session="true" logout-success-url="/login.xhtml?loggedout=true" logout-url="/j_spring_security_logout" delete-cookies="JSESSIONID,SPRING_SECURITY_REMEMBER_ME_COOKIE" />
+
+ 		<csrf disabled="true"/>
+    </http>
+  
+    <authentication-manager alias="authenticationManager">
+		<authentication-provider ref="VortexAuthenticationProvider" />
+	</authentication-manager>
+          
+</beans:beans>

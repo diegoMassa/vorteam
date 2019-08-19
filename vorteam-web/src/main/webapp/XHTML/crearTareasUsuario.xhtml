@@ -1,0 +1,143 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+
+	<ui:define name="content">
+		<f:view locale="#{localeBean.locale}">
+			<h:form id="formDialog">
+				<p:messages id="msg" />
+				<div class="ui-fluid">
+					<div class="card overview">
+						<p:panel header="#{msg.heCrearActividad}">
+							<div class="ui-g">
+								<div class="ui-g-12 ui-md-4 ui-lg-4">
+									<h:panelGroup styleClass="md-inputfield">
+										<p:inputText id="txtNombreActividad"
+											binding="#{crearTareasUsuarioView.txtNombreActividad}" />
+										<label>#{msg.lblNombre}</label>
+									</h:panelGroup>
+									<p:message for="txtNombreActividad" />
+								</div>
+								<div class="ui-g-12 ui-md-4 ui-lg-4">
+									<p:selectOneMenu style="min-width:0;" id="somProyecto"
+										binding="#{crearTareasUsuarioView.somProyecto}"
+										filter="true" filterMatchMode="contains">
+										<f:selectItem itemValue="#{msg.somSeleccionarValue}"
+											itemLabel="#{msg.lblSeleccionarProyecto}" />
+										<f:selectItems value="#{crearTareasUsuarioView.siProyecto}" />
+									</p:selectOneMenu>
+									<p:message for="somProyecto" />
+								</div>
+								<div class="ui-g-12 ui-md-4 ui-lg-4">
+									<p:selectOneMenu style="min-width:0;" id="somTipoActividad"
+										binding="#{crearTareasUsuarioView.somTipoActividad}"
+										filter="true" filterMatchMode="contains">
+										<f:selectItem itemValue="#{msg.somSeleccionarValue}"
+											itemLabel="#{msg.lblSeleccionarTipoActividad}" />
+										<f:selectItems
+											value="#{crearTareasUsuarioView.siTipoActividad}" />
+									</p:selectOneMenu>
+									<p:message for="somTipoActividad" />
+								</div>
+							</div>
+							<div class="ui-g">
+								<div class="ui-g-12 ui-md-3 ui-lg-3">
+									<h:panelGroup styleClass="md-inputfield">
+										<p:calendar id="calFecha" pattern="#{msg.lblAnhoMesDia}"
+											binding="#{crearTareasUsuarioView.calFecha}"
+											value="#{crearTareasUsuarioView.fechaActual}" />
+										<label>#{msg.lblFecha}</label>
+									</h:panelGroup>
+									<p:message for="calFecha" />
+								</div>
+								<div class="ui-g-12 ui-md-3 ui-lg-3">
+									<h:panelGroup styleClass="md-inputfield">
+										<p:inputNumber id="txtHorasEjecutadas"
+											binding="#{crearTareasUsuarioView.txtHorasEjecutadas}" />
+										<label>#{msg.lblHorasEjecutadas}</label>
+									</h:panelGroup>
+									<p:message for="txtHorasEjecutadas" />
+								</div>
+								<div class="ui-g-12 ui-md-3 ui-lg-3">
+									<p:selectOneMenu style="min-width:0;" id="somEstado"
+										binding="#{crearTareasUsuarioView.somEstado}">
+										<f:selectItems value="#{crearTareasUsuarioView.siEstados}" />
+									</p:selectOneMenu>
+									<p:message for="somEstado" />
+								</div>
+								<div class="ui-g-12 ui-md-3 ui-lg-3">
+									<h:panelGroup styleClass="md-inputfield">
+										<p:inputNumber id="txtPorcentajeAvance" minValue="0"
+											maxValue="100" symbol="%" symbolPosition="s"
+											decimalPlaces="2"
+											binding="#{crearTareasUsuarioView.txtPorcentajeAvance}" />
+										<label>#{msg.lblPorcentajeAvance}</label>
+									</h:panelGroup>
+									<p:message for="txtPorcentajeAvance" />
+								</div>
+							</div>
+
+							<div class="ui-g">
+								<div class="ui-g-12 ui-md-4 ui-lg-4">
+									<h:panelGroup styleClass="md-inputfield">
+										<p:inputText id="txtSprint"
+											binding="#{crearTareasUsuarioView.txtSprint}" />
+										<label>#{msg.lblSprint}</label>
+									</h:panelGroup>
+									<p:message for="txtSprint" />
+								</div>
+								<div class="ui-g-12 ui-md-4 ui-lg-4">
+									<h:panelGroup styleClass="md-inputfield">
+										<p:inputText id="txtCasoSoporte"
+											binding="#{crearTareasUsuarioView.txtCasoSoporte}" />
+										<label>#{msg.lblCasoSoporte}</label>
+									</h:panelGroup>
+									<p:message for="txtCasoSoporte" />
+								</div>
+								<div class="ui-g-12 ui-md-4 ui-lg-4">
+									<h:panelGroup styleClass="md-inputfield">
+										<p:inputText id="txtControlCambios"
+											binding="#{crearTareasUsuarioView.txtControlCambios}" />
+										<label>#{msg.lblControlCambios}</label>
+									</h:panelGroup>
+									<p:message for="txtControlCambios" />
+								</div>
+
+							</div>
+							<div class="ui-g">
+								<div class="ui-g-12 ui-md-12 ui-lg-12">
+									<h:panelGroup styleClass="md-inputfield">
+										<p:inputTextarea id="txtDescripcionActividad"
+											binding="#{crearTareasUsuarioView.txtDescripcionActividad}" />
+										<label>#{msg.lblDescripcion}</label>
+									</h:panelGroup>
+									<p:message for="txtDescripcionActividad" />
+								</div>
+							</div>
+
+						</p:panel>
+
+						<p:panel>
+							<div class="ui-g" align="center">
+								<div class="ui-g-12 ui-md-4 ui-lg-4">
+									<p:commandButton id="btnSave" value="#{msg.lblGuardar}"
+										action="#{crearTareasUsuarioView.guardarActividad}"
+										update=":formDialog" />
+								</div>
+								<div class="ui-g-12 ui-md-4 ui-lg-4">
+									<p:commandButton id="btnClear" value="Limpiar Pantalla"
+										action="#{crearTareasUsuarioView.limpiarFormlarioActividad}"
+										update=":formDialog" />
+								</div>
+							</div>
+
+						</p:panel>
+					</div>
+				</div>
+
+			</h:form>
+		</f:view>
+	</ui:define>
+</ui:composition>

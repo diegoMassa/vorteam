@@ -1,0 +1,228 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+
+	<ui:define name="content">
+		<f:view locale="#{localeBean.locale}">
+			<h:form id="frm">
+				<div class="ui-fluid">
+					<div class="card overview">
+						<p:panel id="pnlClientes" header="#{msg.heClientes}">
+							<p:growl id="men" />
+							<p:dataTable value="#{gestionClientesView.proyectosClientesDto}"
+								var="proyecto" scrollable="true" scrollWidth="100%"
+								paginator="true" filterDelay="1000" reflow="true"
+								emptyMessage="#{msgs.msgTablaVacia}"
+								paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+								rowsPerPageTemplate="10,20,30" rows="10">
+								<p:column headerText="#{msg.lblIdentificacion}"
+								 	groupRow="true"
+									width="15%" style="text-align: center"
+									filterBy="#{proyecto.tipoIdentificacionCliente} #{proyecto.identificacionCliente}" 
+									filterMatchMode="contains">
+									<h:outputText
+										value="#{proyecto.tipoIdentificacionCliente} #{proyecto.identificacionCliente}" />
+								</p:column>
+								<p:column headerText="#{msg.lblNombre}"
+									style="text-align: center" width="25%" groupRow="true"
+									filterBy="#{proyecto.nombreCliente}" 
+									filterMatchMode="contains">
+									<h:outputText value="#{proyecto.nombreCliente}" />
+								</p:column>
+								<p:column headerText="#{msg.lblOpciones}" groupRow="true"
+									width="10%" style="text-align: center">
+									<p:commandButton icon="#{icon.iconUpdate}"
+										value="#{msg.lblModificar}"
+										actionListener="#{gestionClientesView.modificarCliente}"
+										update=":dialogCliente">
+										<f:attribute name="clieId" value="#{proyecto.clieId}" />
+									</p:commandButton>
+									<p:commandButton icon="#{icon.iconSave}"
+										value="#{msg.lblCrearProyecto}"
+										actionListener="#{gestionClientesView.nuevoProyecto}"
+										update=":dialogProyecto">
+										<f:attribute name="clieId" value="#{proyecto.clieId}" />
+									</p:commandButton>
+									<br />
+									<h:outputText style="font-size:0px!important"
+										value="#{proyecto.nombreCliente}" />
+								</p:column>
+								<p:column headerText="#{msg.lblNombreProyecto}"
+									style="text-align: center" width="25%"
+									filterBy="#{proyecto.nombreProyecto} - #{proyecto.lineaNegocio}" 
+									filterMatchMode="contains">
+									<h:outputText
+										value="#{proyecto.nombreProyecto} - #{proyecto.lineaNegocio}" />
+								</p:column>
+								<p:column headerText="#{msg.lblEstado}"
+									style="text-align: center" width="10%"
+									filterBy="#{proyecto.activoDescripcion}" 
+									filterMatchMode="contains">
+									<h:outputText
+										value="#{proyecto.activoDescripcion}" />
+								</p:column>
+								<p:column headerText="#{msg.lblOpciones}" width="10%"
+									style="text-align: center">
+									<p:commandButton icon="#{icon.iconUpdate}"
+										rendered="#{proyecto.proyId != null}"
+										value="#{msg.lblModificar}"
+										actionListener="#{gestionClientesView.modificarProyecto}"
+										update=":dialogProyecto">
+										<f:attribute name="proyId" value="#{proyecto.proyId}" />
+									</p:commandButton>
+								</p:column>
+
+
+								<f:facet name="footer">
+									<div align="right">
+										<p:commandButton id="btnNuevo"
+											action="#{gestionClientesView.nuevoCliente}"
+											update=":dialogCliente" styleClass="oro" icon="ui-icon-add" />
+									</div>
+								</f:facet>
+							</p:dataTable>
+
+						</p:panel>
+					</div>
+				</div>
+			</h:form>
+
+			<p:dialog id="dialogCliente" draggable="true" closable="false"
+				responsive="true"
+				visible="#{gestionClientesView.esVisibleDlgCliente}"
+				resizable="false" modal="true" width="60%" height="65%">
+				<h:form id="frmCliente">
+					<div class="ui-fluid">
+						<div class="ui-g">
+							<div class="ui-g-12">
+								<h:panelGroup styleClass="md-inputfield">
+									<p:inputText id="txtNombreRazonSocial"
+										binding="#{gestionClientesView.txtNombreRazonSocial}" />
+									<label>#{msg.lblNombreRazonSocial}</label>
+								</h:panelGroup>
+								<p:message for="txtNombreRazonSocial" />
+							</div>
+						</div>
+						<div class="ui-g">
+							<div class="ui-g-12 ui-md-6 ui-lg-6">
+								<p:selectOneMenu style="min-width:0;" id="somTipoIdentificacion"
+									binding="#{gestionClientesView.somTipoIdentificacion}"
+									filter="true" filterMatchMode="contains">
+									<f:selectItem itemValue="#{msg.somSeleccionarValue}" 
+										itemLabel="#{msg.lblSeleccionarTipoIdentificacion}" />
+									<f:selectItems
+										value="#{gestionClientesView.siTiposIdentificacion}" />
+								</p:selectOneMenu>
+								<p:message for="somTipoIdentificacion" />
+							</div>
+							<div class="ui-g-12 ui-md-6 ui-lg-6">
+								<h:panelGroup styleClass="md-inputfield">
+									<p:inputText id="txtIdentificacion"
+										binding="#{gestionClientesView.txtIdentificacion}" />
+									<label>#{msg.lblIdentificacion}</label>
+								</h:panelGroup>
+								<p:message for="txtIdentificacion" />
+							</div>
+						</div>
+
+
+
+
+						<div class="ui-g">
+							<div class="ui-g-12 ui-md-4 ui-lg-4">
+								<p:commandButton id="btnSave" value="#{msg.lblGuardar}"
+									action="#{gestionClientesView.guardarCliente}"
+									update=":dialogCliente,:frm:pnlClientes" />
+							</div>
+							<div class="ui-g-12 ui-md-4 ui-lg-4">
+								<p:commandButton id="btnClear" value="Limpiar Pantalla"
+									action="#{gestionClientesView.limpiarFormularioClientes}"
+									update=":dialogCliente" />
+							</div>
+							<div class="ui-g-12 ui-md-4 ui-lg-4">
+								<p:commandButton id="btnExit" value="Salir" styleClass="ui-g-12"
+									action="#{gestionClientesView.cerrarDlgCliente}"
+									update=":dialogCliente" />
+
+							</div>
+						</div>
+
+					</div>
+				</h:form>
+			</p:dialog>
+
+			<p:dialog id="dialogProyecto" draggable="true" closable="false"
+				responsive="true"
+				visible="#{gestionClientesView.esVisibleDlgProyecto}"
+				resizable="false" modal="true" width="60%" height="65%">
+				<h:form id="frmProyecto">
+					<div class="ui-fluid">
+						<div class="ui-g">
+							<div class="ui-g-12 ui-md-6">
+								<h:panelGroup styleClass="md-inputfield">
+									<p:inputText id="txtNombreProyecto"
+										binding="#{gestionClientesView.txtNombreProyecto}" />
+									<label>#{msg.lblNombreProyecto}</label>
+								</h:panelGroup>
+								<p:message for="txtNombreProyecto" />
+							</div>
+							<div class="ui-g-12 ui-md-6">
+								<h:panelGroup styleClass="md-inputfield">
+									<p:inputNumber id="txtCostoTotal"
+										binding="#{gestionClientesView.txtCostoTotal}" />
+									<label>#{msg.lblCostoTotal}</label>
+								</h:panelGroup>
+								<p:message for="txtCostoTotal" />
+							</div>
+						</div>
+
+						<div class="ui-g">
+							<div class="ui-g-12 ui-md-6">
+								<p:selectOneMenu style="min-width:0;" id="somLineaNegocio"
+									binding="#{gestionClientesView.somLineaNegocio}"
+									filter="true" filterMatchMode="contains">
+									<f:selectItem itemValue="#{msg.somSeleccionarValue}"
+										itemLabel="#{msg.lblSeleccionarLineaNegocio}" />
+									<f:selectItems value="#{gestionClientesView.siLineasNegocio}" />
+								</p:selectOneMenu>
+								<p:message for="somLineaNegocio" />
+							</div>
+							<div class="ui-g-12 ui-md-6">
+								<p:selectOneMenu style="min-width:0;" id="somEstadoProyecto"
+									binding="#{gestionClientesView.somEstadoProyecto}"
+									filter="true" filterMatchMode="contains">
+									<f:selectItem itemValue="#{msg.somSeleccionarValue}"
+										itemLabel="#{msg.lblSeleccionarEstado}" />
+									<f:selectItems value="#{gestionClientesView.siEstadosProyecto}" />
+								</p:selectOneMenu>
+								<p:message for="somEstadoProyecto" />
+							</div>
+						</div>
+
+						<div class="ui-g">
+							<div class="ui-g-12 ui-md-4 ui-lg-4">
+								<p:commandButton id="btnSave" value="#{msg.lblGuardar}"
+									action="#{gestionClientesView.guardarProyecto}"
+									update=":dialogProyecto,:frm:pnlClientes" />
+							</div>
+							<div class="ui-g-12 ui-md-4 ui-lg-4">
+								<p:commandButton id="btnClear" value="Limpiar Pantalla"
+									action="#{gestionClientesView.limpiarFormularioProyecto}"
+									update=":dialogProyecto" />
+							</div>
+							<div class="ui-g-12 ui-md-4 ui-lg-4">
+								<p:commandButton id="btnExit" value="Salir" styleClass="ui-g-12"
+									action="#{gestionClientesView.cerrarDlgProyecto}"
+									update=":dialogProyecto" />
+
+							</div>
+						</div>
+
+					</div>
+				</h:form>
+			</p:dialog>
+		</f:view>
+	</ui:define>
+</ui:composition>

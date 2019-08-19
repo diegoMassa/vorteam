@@ -1,0 +1,144 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Oct 15, 2016 4:43:12 PM by Hibernate Tools 4.0.0 -->
+<hibernate-mapping>
+    <class name="com.vortexbird.sentinel.modelo.SegUsuario" table="seg_usuario" schema="seguridad">
+        <id name="usuCodigo" type="java.lang.Long">
+            <column name="usu_codigo" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="segUsuario" class="com.vortexbird.sentinel.modelo.SegUsuario" fetch="select">
+            <column name="mod_usu_codigo" />
+        </many-to-one>
+        <property name="usuNombres" type="java.lang.String">
+            <column name="usu_nombres" length="50" not-null="true" />
+        </property>
+        <property name="usuApellidos" type="java.lang.String">
+            <column name="usu_apellidos" length="50" not-null="true" />
+        </property>
+        <property name="usuLogin" type="java.lang.String">
+            <column name="usu_login" length="30" not-null="true" />
+        </property>
+        <property name="usuConstrasena" type="java.lang.String">
+            <column name="usu_constrasena" length="50" not-null="true" />
+        </property>
+        <property name="usuEstadoRegistro" type="java.lang.String">
+            <column name="usu_estado_registro" length="1" not-null="true" />
+        </property>
+        <property name="usuCodigoInterno" type="java.lang.String">
+            <column name="usu_codigo_interno" length="50" not-null="true" />
+        </property>
+        <property name="usuUltmimaModificacionPass" type="java.util.Date">
+            <column name="usu_ultmima_modificacion_pass" length="13" />
+        </property>
+        <property name="usuCorreo" type="java.lang.String">
+            <column name="usu_correo" length="200" />
+        </property>
+        <property name="usuIntentosFallidos" type="java.lang.Long">
+            <column name="usu_intentos_fallidos" precision="18" scale="0" />
+        </property>
+        <property name="usuCompaniaCiaCodigo" type="java.lang.Long">
+            <column name="usu_compania_cia_codigo" precision="12" scale="0" />
+        </property>
+        <property name="usuPrimerLoginSso" type="java.lang.String">
+            <column name="usu_primer_login_sso" length="1" />
+        </property>
+        <set name="segCompanias" table="seg_compania" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="mod_usu_codigo" />
+            </key>
+            <one-to-many class="com.vortexbird.sentinel.modelo.SegCompania" />
+        </set>
+        <set name="segPermisosForModUsuCodigo" table="seg_permiso" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="mod_usu_codigo" />
+            </key>
+            <one-to-many class="com.vortexbird.sentinel.modelo.SegPermiso" />
+        </set>
+        <set name="segSistemaCias" table="seg_sistema_cia" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="mod_usu_codigo" />
+            </key>
+            <one-to-many class="com.vortexbird.sentinel.modelo.SegSistemaCia" />
+        </set>
+        <set name="segPermisosForUsuCodigo" table="seg_permiso" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="usu_codigo" />
+            </key>
+            <one-to-many class="com.vortexbird.sentinel.modelo.SegPermiso" />
+        </set>
+        <set name="segRolUsuariosForSegUsuarioUsuCodigo" table="seg_rol_usuario" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="seg_usuario_usu_codigo" not-null="true" />
+            </key>
+            <one-to-many class="com.vortexbird.sentinel.modelo.SegRolUsuario" />
+        </set>
+        <set name="segSistemas" table="seg_sistema" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="mod_usu_codigo" />
+            </key>
+            <one-to-many class="com.vortexbird.sentinel.modelo.SegSistema" />
+        </set>
+        <set name="segHistorialConstrasenas" table="seg_historial_constrasena" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="usu_codigo" not-null="true" />
+            </key>
+            <one-to-many class="com.vortexbird.sentinel.modelo.SegHistorialConstrasena" />
+        </set>
+        <set name="segAuditorias" table="seg_auditoria" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="usu_codigo" />
+            </key>
+            <one-to-many class="com.vortexbird.sentinel.modelo.SegAuditoria" />
+        </set>
+        <set name="segOpcions" table="seg_opcion" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="mod_usu_codigo" />
+            </key>
+            <one-to-many class="com.vortexbird.sentinel.modelo.SegOpcion" />
+        </set>
+        <set name="segSucursals" table="seg_sucursal" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="mod_usu_codigo" />
+            </key>
+            <one-to-many class="com.vortexbird.sentinel.modelo.SegSucursal" />
+        </set>
+        <set name="segRolUsuariosForModUsuCodigo" table="seg_rol_usuario" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="mod_usu_codigo" />
+            </key>
+            <one-to-many class="com.vortexbird.sentinel.modelo.SegRolUsuario" />
+        </set>
+        <set name="segCambioPasses" table="seg_cambio_pass" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="seg_usuario_usu_codigo" />
+            </key>
+            <one-to-many class="com.vortexbird.sentinel.modelo.SegCambioPass" />
+        </set>
+        <set name="segGrupoOpcions" table="seg_grupo_opcion" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="mod_usu_codigo" />
+            </key>
+            <one-to-many class="com.vortexbird.sentinel.modelo.SegGrupoOpcion" />
+        </set>
+        <set name="segUsuarios" table="seg_usuario" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="mod_usu_codigo" />
+            </key>
+            <one-to-many class="com.vortexbird.sentinel.modelo.SegUsuario" />
+        </set>
+        <set name="segRols" table="seg_rol" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="mod_usu_codigo" />
+            </key>
+            <one-to-many class="com.vortexbird.sentinel.modelo.SegRol" />
+        </set>
+        <set name="segParametros" table="seg_parametro" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="mod_usu_codigo" />
+            </key>
+            <one-to-many class="com.vortexbird.sentinel.modelo.SegParametro" />
+        </set>
+    </class>
+</hibernate-mapping>

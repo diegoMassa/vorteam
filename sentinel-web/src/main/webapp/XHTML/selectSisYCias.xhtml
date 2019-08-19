@@ -1,0 +1,89 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+
+	<ui:define name="content">
+		<style type="text/css">
+			.ui-panel {
+				margin-top: 20px
+			}
+			
+			.ui-tabs-top{
+				background-color: #FFFFFF;
+			}
+			
+			.one {
+				width: 40%;
+			}
+			
+			.two {
+				width: 60%;
+			}
+		</style>
+
+		<h:form>
+		
+			<h:panelGrid columns="1">
+				<h:panelGrid columns="1">
+					<div class="ContainerIndent">
+			
+							
+						<p:messages id="msg" showDetail="false" autoUpdate="true" closable="true" />
+							
+						<div align="center">
+							<p:panel id="panelSistemasYCompanias"
+								header="Administración de Sistemas">
+	
+								<div align="center">
+									<br />
+									<h:panelGrid id="panelDatos" columns="2" border="0">
+										<h:outputText 
+											value=" Sistema a Administrar" />
+											
+										<p:selectOneMenu id="somCodigoSistema"
+											value="#{loginView.selectedSistema}">
+											
+											<f:selectItem itemValue="-1" itemLabel="Seleccione un sistema" />
+											<f:selectItems value="#{loginView.listSistemas}" />
+										
+											<p:ajax event="change" listener="#{loginView.listener_sistema}" update="somCodigoCompania"/>
+											
+										</p:selectOneMenu>
+										
+										
+										<h:outputText id="comp" value=" Compañía a Administrar" />
+										<p:selectOneMenu id="somCodigoCompania"
+											value="#{loginView.selectedCompania}">
+											
+											<f:selectItem itemValue="-1"
+												itemLabel="Seleccione una Compañía" />
+											<f:selectItems value="#{loginView.listCompanias}" />
+											
+										</p:selectOneMenu>
+	
+									</h:panelGrid>
+	
+									<br />
+								</div>
+	
+								<div>
+									<h:panelGrid id="panelBotones">
+										<p:commandButton id="btnContinuar" action="#{loginView.irMenu}"
+											value="Continuar" update="panelSistemasYCompanias" />
+									</h:panelGrid>
+								</div>
+								
+							</p:panel>
+						</div>						
+							
+					</div>
+				</h:panelGrid>
+			</h:panelGrid>
+		
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>

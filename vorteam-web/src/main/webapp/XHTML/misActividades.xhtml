@@ -1,0 +1,345 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+
+	<ui:define name="content">
+		<f:view locale="#{localeBean.locale}">
+			<h:form id="formDialog">
+				<p:messages id="msg" />
+				<div class="ui-fluid">
+
+					<div class="card overview">
+						<p:panel header="#{msg.heMisActividades}">
+							<div class="ui-g">
+								<div class="ui-g-12 ui-md-4 ui-lg-4">
+									<p:selectOneMenu style="min-width:0;" id="somProyectoFiltro"
+										binding="#{misActividadesView.somProyectoFiltro}"
+										filter="true" filterMatchMode="contains">
+										<f:selectItem itemValue="#{msg.somSeleccionarValue}"
+											itemLabel="#{msg.lblSeleccionarProyecto}" />
+										<f:selectItems value="#{misActividadesView.siProyectosFiltro}" />
+									</p:selectOneMenu>
+									<p:message for="somProyectoFiltro" />
+								</div>
+								<div class="ui-g-12 ui-md-4 ui-lg-4">
+									<p:selectOneMenu style="min-width:0;" id="somEstadoFiltro"
+										binding="#{misActividadesView.somEstadoFiltro}" filter="true"
+										filterMatchMode="contains">
+										<f:selectItem itemValue="#{msg.somSeleccionarValue}"
+											itemLabel="#{msg.lblSeleccionarEstado}" />
+										<f:selectItems value="#{misActividadesView.siEstados}" />
+									</p:selectOneMenu>
+									<p:message for="somEstadoFiltro" />
+								</div>
+								<div class="ui-g-12 ui-md-4 ui-lg-4">
+									<p:selectOneMenu style="min-width:0;"
+										id="somTipoActividadFiltro"
+										binding="#{misActividadesView.somTipoActividadFiltro}"
+										filter="true" filterMatchMode="contains">
+										<f:selectItem itemValue="#{msg.somSeleccionarValue}"
+											itemLabel="#{msg.lblSeleccionarTipoActividad}" />
+										<f:selectItems
+											value="#{misActividadesView.siTiposActividadFiltro}" />
+									</p:selectOneMenu>
+									<p:message for="somTipoActividadFiltro" />
+								</div>
+							</div>
+							<div class="ui-g">
+								<div class="ui-g-12 ui-md-4 ui-lg-4">
+									<h:panelGroup styleClass="md-inputfield">
+										<p:inputText id="txtSprintFiltro"
+											binding="#{misActividadesView.txtSprintFiltro}" />
+										<label>#{msg.lblSprint}</label>
+									</h:panelGroup>
+									<p:message for="txtSprintFiltro" />
+								</div>
+								<div class="ui-g-12 ui-md-4 ui-lg-4">
+									<h:panelGroup styleClass="md-inputfield">
+										<p:inputText id="txtCasoSoporteFiltro"
+											binding="#{misActividadesView.txtCasoSoporteFiltro}" />
+										<label>#{msg.lblCasoSoporte}</label>
+									</h:panelGroup>
+									<p:message for="txtCasoSoporteFiltro" />
+								</div>
+								<div class="ui-g-12 ui-md-4 ui-lg-4">
+									<h:panelGroup styleClass="md-inputfield">
+										<p:inputText id="txtControlCambiosFiltro"
+											binding="#{misActividadesView.txtControlCambiosFiltro}" />
+										<label>#{msg.lblControlCambios}</label>
+									</h:panelGroup>
+									<p:message for="txtControlCambiosFiltro" />
+								</div>
+							</div>
+							<div align="center">
+								<h:panelGrid columns="2">
+									<p:commandButton id="btnConsultar" value="#{msg.lblConsultar}"
+									 action="#{misActividadesView.buscarMisActividades}" update="dtMisActividades" />
+								</h:panelGrid>
+							</div>
+
+						</p:panel>
+
+					</div>
+
+
+					<div class="card overview">
+						<p:scrollPanel header="#{msg.heMisActividades}" mode="native">
+							<p:dataTable 
+								lazy="true" value="#{misActividadesView.misActividadesDataModeler}"
+								var="actividad" reflow="true" scrollable="true" scrollWidth="100%"
+								paginator="true" filterDelay="1000"
+								emptyMessage="#{msgs.msgTablaVacia}"
+								paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+								rowsPerPageTemplate="10,20,30" rows="10"
+								widgetVar="misActividadesTbl" id="dtMisActividades">
+								<p:column headerText="#{msg.lblNombreProyecto}"
+									style="text-align: center" width="120"
+									filterBy="#{actividad.nombreProyecto}"
+									filterMatchMode="contains">
+									<h:outputText value="#{actividad.nombreProyecto}" />
+								</p:column>
+								<p:column headerText="#{msg.lblNombreRazonSocial}"
+									style="text-align: center" width="80"
+									filterBy="#{actividad.nombreCliente}"
+									filterMatchMode="contains">
+									<h:outputText value="#{actividad.nombreCliente}" />
+								</p:column>
+								<p:column headerText="#{msg.lblNombre}"
+									style="text-align: center" filterBy="#{actividad.nombre}" width="180"
+									filterMatchMode="contains">
+									<h:outputText value="#{actividad.nombre}" />
+								</p:column>
+								<p:column headerText="#{msg.lblEstado}"
+									style="text-align: center" filterBy="#{actividad.estado}" width="60"
+									filterMatchMode="contains">
+									<h:outputText value="#{actividad.estado}" />
+								</p:column>
+								<p:column headerText="#{msg.lblTipoActividad}"
+									style="text-align: center" width="70"
+									filterBy="#{actividad.tipoActividad}"
+									filterMatchMode="contains">
+									<h:outputText value="#{actividad.tipoActividad}" />
+								</p:column>
+								<p:column headerText="#{msg.lblFechaLimite}"
+									style="text-align: center" width="70">
+									<h:outputText value="#{actividad.fechaLimite}">
+										<f:convertDateTime pattern="yyyy-MMM-dd" locale="es" />
+									</h:outputText>
+								</p:column>
+								<p:column headerText="#{msg.lblHorasPresupuestadas}"
+									style="text-align: center" width="60">
+									<h:outputText value="#{actividad.horasPresupuestadas}" />
+								</p:column>
+								<p:column headerText="#{msg.lblHorasEjecutadas}"
+									style="text-align: center" width="100">
+									<h:outputText value="#{actividad.horasEjecutadas}" />
+								</p:column>
+								<p:column headerText="#{msg.lblPorcentajeAvance}"
+									style="text-align: center" width="60">
+									<h:outputText value="#{actividad.porcentajeAvance}" />
+								</p:column>
+								<p:column headerText="#{msg.lblSprint}" width="60"
+									style="text-align: center" filterBy="#{actividad.sprint}"
+									filterMatchMode="contains">
+									<h:outputText value="#{actividad.sprint}" />
+								</p:column>
+								<p:column headerText="#{msg.lblCasoSoporte}" width="60"
+									style="text-align: center" filterBy="#{actividad.casoSoporte}"
+									filterMatchMode="contains">
+									<h:outputText value="#{actividad.casoSoporte}" />
+								</p:column>
+								<p:column headerText="#{msg.lblControlCambios}" width="60"
+									style="text-align: center"
+									filterBy="#{actividad.controlCambios}"
+									filterMatchMode="contains">
+									<h:outputText value="#{actividad.controlCambios}" />
+								</p:column>
+								<p:column id="columnFechaUltimoRegistro"
+									headerText="#{msg.lblUltimaFechaRegistro}"
+									style="text-align: center" width="80"
+									filterBy="#{actividad.ultimaFechaRegistro}"
+									filterFunction="#{misActividadesView.filterByDate}">
+									<f:facet name="filter">
+										<p:calendar id="calendar1" pattern="yyyy-MMM-dd">
+											<p:ajax event="dateSelect"
+												oncomplete="PF('misActividadesTbl').filter()"
+												update="dtMisActividades" />
+											<p:ajax event="change" execute="@this"
+												oncomplete="PF('misActividadesTbl').filter()"
+												update="dtMisActividades" />
+										</p:calendar>
+									</f:facet>
+									<h:outputText value="#{actividad.ultimaFechaRegistro}">
+										<f:convertDateTime pattern="yyyy-MMM-dd" locale="es" />
+									</h:outputText>
+								</p:column>
+								<p:column headerText="#{msg.lblDescripcion}" width="60"
+									style="text-align: center">
+									<p:commandButton icon="#{icon.iconSearch}"
+										actionListener="#{misActividadesView.verDescripcionActividad}"
+										update=":dlgVerDescripcionActividad">
+										<f:attribute name="actiId" value="#{actividad.actiId}" />
+									</p:commandButton>
+								</p:column>
+								<p:column headerText="#{msg.lblOpciones}" width="70"
+									style="text-align: center">
+									<p:commandButton icon="#{icon.iconAgregar}"
+										actionListener="#{misActividadesView.reportarTiempo}"
+										update=":dialogReporte">
+										<f:attribute name="asigId" value="#{actividad.asigId}" />
+									</p:commandButton>
+									<p:commandButton icon="#{icon.iconShow}"
+										actionListener="#{misActividadesView.verReportesTiempo}"
+										update=":dlgVerReportes">
+										<f:attribute name="asigId" value="#{actividad.asigId}" />
+									</p:commandButton>
+								</p:column>
+							</p:dataTable>
+						</p:scrollPanel>
+					</div>
+				</div>
+			</h:form>
+
+			<p:dialog id="dialogReporte" draggable="true" closable="false"
+				responsive="true"
+				visible="#{misActividadesView.esVisibleDlgReportarTiempos}"
+				resizable="false" modal="true" width="60%" height="65%">
+				<h:form id="frmReporteTiempo">
+					<div class="ui-fluid">
+						<div class="ui-g">
+							<div class="ui-g-12 ui-md-6 ui-lg-6">
+								<h:panelGroup styleClass="md-inputfield">
+									<p:calendar id="calFecha" pattern="#{msg.lblAnhoMesDia}"
+										binding="#{misActividadesView.calFecha}"
+										value="#{misActividadesView.fechaActual}" />
+									<label>#{msg.lblFecha}</label>
+								</h:panelGroup>
+								<p:message for="calFecha" />
+							</div>
+							<div class="ui-g-12 ui-md-6 ui-lg-6">
+								<p:selectOneMenu style="min-width:0;" id="somEstado"
+									binding="#{misActividadesView.somEstado}">
+									<f:selectItems value="#{misActividadesView.siEstados}" />
+								</p:selectOneMenu>
+								<p:message for="somEstado" />
+							</div>
+						</div>
+						<div class="ui-g">
+							<div class="ui-g-12 ui-md-4 ui-lg-4">
+								<h:panelGroup styleClass="md-inputfield">
+									<p:inputNumber id="txtHorasEjecutadas"
+										binding="#{misActividadesView.txtHorasEjecutadas}" />
+									<label>#{msg.lblHorasEjecutadas}</label>
+								</h:panelGroup>
+								<p:message for="txtHorasEjecutadas" />
+							</div>
+							<div class="ui-g-12 ui-md-4 ui-lg-4">
+								<h:panelGroup styleClass="md-inputfield">
+									<p:inputNumber id="txtPorcentajeAvance" minValue="0"
+										maxValue="100" symbol="%" symbolPosition="s" decimalPlaces="2"
+										binding="#{misActividadesView.txtPorcentajeAvance}" />
+									<label>#{msg.lblPorcentajeAvance}</label>
+								</h:panelGroup>
+								<p:message for="txtPorcentajeAvance" />
+							</div>
+							<div class="ui-g-12 ui-md-4 ui-lg-4">
+								<h:panelGroup styleClass="md-inputfield">
+									<p:inputTextarea id="txtObservacion"
+										binding="#{misActividadesView.txtObservacion}" />
+									<label>#{msg.lblObservacion}</label>
+								</h:panelGroup>
+								<p:message for="txtObservacion" />
+							</div>
+						</div>
+						<div class="ui-g">
+							<div class="ui-g-12 ui-md-6 ui-lg-6">
+								<p:commandButton value="#{msg.lblGuardar}"
+									action="#{misActividadesView.guardarReporte}"
+									update=":dialogReporte, :formDialog" />
+							</div>
+							<div class="ui-g-12 ui-md-6 ui-lg-6">
+								<p:commandButton value="#{msg.lblSalir}"
+									action="#{misActividadesView.cerrarDialogoReportarTiempos}"
+									update=":dialogReporte" />
+							</div>
+						</div>
+					</div>
+				</h:form>
+			</p:dialog>
+
+			<p:dialog id="dlgVerReportes" draggable="true" closable="false"
+				responsive="true"
+				visible="#{misActividadesView.esVisibleDlgReportesTiempos}"
+				resizable="false" modal="true" width="60%" height="65%">
+				<h:form id="frmReportesTiempo">
+					<div class="ui-fluid">
+						<div class="ui-g">
+							<p:dataTable value="#{misActividadesView.lstReporteTiempo}"
+								var="reti" reflow="true" scrollable="true" scrollWidth="100%"
+								paginator="true" filterDelay="1000"
+								emptyMessage="#{msgs.msgTablaVacia}"
+								paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+								rowsPerPageTemplate="10,20,30" rows="10">
+								<p:column headerText="#{msg.lblFecha}" filterBy="#{reti.fecha}"
+									sortBy="#{reti.fecha}" style="text-align: center">
+									<h:outputText value="#{reti.fecha}" />
+								</p:column>
+								<p:column headerText="#{msg.lblObservacion}"
+									filterBy="#{reti.observacion}" sortBy="#{reti.observacion}"
+									style="text-align: center">
+									<h:outputText value="#{reti.observacion}" />
+								</p:column>
+								<p:column headerText="#{msg.lblHorasEjecutadas}"
+									filterBy="#{reti.horasEjecutadas}"
+									sortBy="#{reti.horasEjecutadas}" style="text-align: center">
+									<h:outputText value="#{reti.horasEjecutadas}" />
+								</p:column>
+								<p:column headerText="#{msg.lblPorcentajeAvance}"
+									filterBy="#{reti.porcentajeAvance}"
+									sortBy="#{reti.porcentajeAvance}" style="text-align: center">
+									<h:outputText value="#{reti.porcentajeAvance}" />
+								</p:column>
+								<p:column headerText="#{msg.lblOpciones}"
+									style="text-align: center">
+									<p:commandButton icon="#{icon.iconUpdate}"
+										actionListener="#{misActividadesView.modificarRegistroTiempo}"
+										update=":dialogReporte">
+										<f:attribute name="retiId" value="#{reti.retiId}" />
+									</p:commandButton>
+
+								</p:column>
+
+							</p:dataTable>
+						</div>
+						<div class="ui-g-12 ui-md-6 ui-lg-6">
+							<p:commandButton value="#{msg.lblSalir}"
+								action="#{misActividadesView.cerrarDlgReportesTiempo}"
+								update=":dlgVerReportes" />
+						</div>
+					</div>
+				</h:form>
+			</p:dialog>
+			<p:dialog id="dlgVerDescripcionActividad" draggable="true"
+				closable="false" responsive="true"
+				visible="#{misActividadesView.esVisibleDlgVerdescripcionActividad}"
+				resizable="false" modal="true" width="60%" height="65%">
+				<h:form id="frmDescripcionActividad">
+					<div class="ui-fluid">
+						<div class="ui-g">
+							<p:inputTextarea
+								value="#{misActividadesView.strDescripcionActividad}"
+								readonly="true" />
+						</div>
+						<div class="ui-g-12 ui-md-6 ui-lg-6">
+							<p:commandButton value="#{msg.lblSalir}"
+								action="#{misActividadesView.cerrarDlgVerDescripcionActividad}"
+								update=":dlgVerDescripcionActividad" />
+						</div>
+					</div>
+				</h:form>
+			</p:dialog>
+		</f:view>
+	</ui:define>
+</ui:composition>

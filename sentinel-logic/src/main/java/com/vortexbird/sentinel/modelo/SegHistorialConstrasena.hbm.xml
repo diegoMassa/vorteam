@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Oct 15, 2016 4:43:12 PM by Hibernate Tools 4.0.0 -->
+<hibernate-mapping>
+    <class name="com.vortexbird.sentinel.modelo.SegHistorialConstrasena" table="seg_historial_constrasena" schema="seguridad">
+        <id name="hcoCodigo" type="java.lang.Long">
+            <column name="hco_codigo" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="segUsuario" class="com.vortexbird.sentinel.modelo.SegUsuario" fetch="select">
+            <column name="usu_codigo" not-null="true" />
+        </many-to-one>
+        <property name="hcoConstrasena" type="java.lang.String">
+            <column name="hco_constrasena" length="50" not-null="true" />
+        </property>
+        <property name="hcoFechaCambio" type="java.util.Date">
+            <column name="hco_fecha_cambio" length="13" not-null="true" />
+        </property>
+        <property name="hcoDetalleCambio" type="java.lang.String">
+            <column name="hco_detalle_cambio" length="100" />
+        </property>
+    </class>
+</hibernate-mapping>

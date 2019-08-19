@@ -1,0 +1,6 @@
+Se debe agregar el JNDI de desarrollo en el archivo context.xml del Servidor.
+
+<Resource auth="Container" driverClassName="org.postgresql.Driver"
+		maxActive="100" maxIdle="30" maxWait="10000" name="jdbc/vorteam"
+		password="postgres" type="javax.sql.DataSource"
+		url="jdbc:postgresql://127.0.0.1:5432/vorteam" username="postgres" />
