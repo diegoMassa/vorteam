@@ -24,15 +24,16 @@
 		<skipTests>false</skipTests>
 	</properties>
 
-
+<!-- 
 	<repositories>
 		<repository>
 			<id>prime-repo</id>
 			<name>PrimeFaces Maven Repository</name>
-			<url>https://repository.primefaces.org</url>
+			<url>http://repository.primefaces.org</url>
 			<layout>default</layout>
 		</repository>
 	</repositories>
+ -->
 
 	<dependencies>
 		<dependency>
