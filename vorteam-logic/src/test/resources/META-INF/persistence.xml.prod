@@ -26,9 +26,9 @@
 		
 		<properties>
 			<property name="hibernate.connection.driver_class" value="org.postgresql.Driver" />
-			<property name="hibernate.connection.url" value="jdbc:postgresql://127.0.0.1:5432/vorteam" />
+			<property name="hibernate.connection.url" value="jdbc:postgresql://127.0.0.1:5433/vorteam" />
 			<property name="hibernate.connection.username" value="postgres" />
-			<property name="hibernate.connection.password" value="Pr0dVorT3xKtK1" />
+			<property name="hibernate.connection.password" value="postgres" />
 		</properties>
 
 	</persistence-unit>
