@@ -14,7 +14,7 @@
 		<hibernate.validator.version>4.2.0.Final</hibernate.validator.version>
 		<primefaces.version>5.1</primefaces.version>
 		<spring.version>4.3.4.RELEASE</spring.version>
-		<spring.security.version>4.0.3.RELEASE</spring.security.version>
+		<spring.security.version>5.2.10.RELEASE</spring.security.version>
 		<mojarra.version>2.2.6</mojarra.version>
 		<slf4j.version>1.7.10</slf4j.version>
 	</properties>
